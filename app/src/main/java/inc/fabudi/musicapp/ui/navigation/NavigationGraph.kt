@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import inc.fabudi.musicapp.ui.screens.ExploreScreen
 import inc.fabudi.musicapp.ui.screens.LibraryScreen
+import inc.fabudi.musicapp.ui.screens.Player
 import inc.fabudi.musicapp.ui.screens.SearchScreen
 import inc.fabudi.musicapp.ui.screens.SettingsScreen
 import inc.fabudi.musicapp.ui.screens.TrendingScreen
@@ -27,6 +28,15 @@ fun NavigationGraph(navController: NavHostController) {
         }
         composable(BottomNavItem.Settings.screenRoute) {
             SettingsScreen()
+        }
+        composable("Player") {
+            Player()
+        }
+        composable("Artist") {
+            Player()
+        }
+        composable("Album") {
+            Player()
         }
     }
 }
