@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -43,16 +44,17 @@ enum class TrackCardType {
 }
 
 @Composable
-fun PlaylistCardWithDesc() {
+fun PlaylistCardWithDesc(modifier: Modifier = Modifier) {
     Column(
         modifier = Modifier
+            .wrapContentSize()
             .background(MaterialTheme.colorScheme.background)
             .padding(8.dp)
     ) {
         Image(
             painter = painterResource(R.drawable.ic_launcher_background),
             contentDescription = "",
-            modifier = Modifier.clip(RoundedCornerShape(15))
+            modifier = modifier.aspectRatio(1/1f).clip(RoundedCornerShape(15))
         )
         Text(
             text = "Title",
@@ -67,7 +69,7 @@ fun PlaylistCardWithDesc() {
 @Preview
 @Composable
 fun PlaylistCardWithDescPreview() {
-    PlaylistCardWithDesc()
+    PlaylistCardWithDesc(modifier = Modifier.height(256.dp))
 }
 
 
@@ -174,19 +176,19 @@ fun PlaylistCardWithNameFourImagesPreview() {
 
 
 @Composable
-fun PlaylistCardWithNameInside() {
+fun PlaylistCardWithNameInside(modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .background(MaterialTheme.colorScheme.background)
             .padding(8.dp)
             .height(IntrinsicSize.Min)
-            .width(IntrinsicSize.Min)
+            .aspectRatio(1/1f)
             .clip(RoundedCornerShape(15))
     ) {
         Image(
             painter = painterResource(R.drawable.ic_launcher_background),
             contentDescription = "",
-            modifier = Modifier
+            modifier = Modifier.fillMaxSize()
         )
         Box(
             modifier = Modifier
@@ -206,7 +208,7 @@ fun PlaylistCardWithNameInside() {
             color = Color.White,
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(start = 8.dp, bottom = 8.dp)
+                .padding(start = 16.dp, bottom = 8.dp)
         )
     }
 }
@@ -214,7 +216,7 @@ fun PlaylistCardWithNameInside() {
 @Preview
 @Composable
 fun PlaylistCardWithNameInsidePreview() {
-    PlaylistCardWithNameInside()
+    PlaylistCardWithNameInside(modifier = Modifier.height(256.dp))
 }
 
 
