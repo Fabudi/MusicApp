@@ -38,10 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import inc.fabudi.musicapp.R
 import inc.fabudi.musicapp.ui.theme.MusicAppTheme
-
-enum class TrackCardType {
-    IMAGE, TRENDING, ALBUM, PLAYLIST, PLAYLIST_AUTHOR, PLAYLIST_TITLE_INSIDE, PLAYLIST_TITLE
-}
+import java.util.Locale
 
 @Composable
 fun PlaylistCardWithDesc(modifier: Modifier = Modifier) {
