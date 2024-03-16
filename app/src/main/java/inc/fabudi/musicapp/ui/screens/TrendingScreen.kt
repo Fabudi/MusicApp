@@ -25,10 +25,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import inc.fabudi.musicapp.ui.components.TrendingTrackCard
 
 @Composable
-fun TrendingScreen() {
+fun TrendingScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -79,7 +81,7 @@ fun TrendingScreen() {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(10) {
-                TrendingTrackCard()
+                TrendingTrackCard(onClick = {})
             }
         }
     }
@@ -88,5 +90,5 @@ fun TrendingScreen() {
 @Preview
 @Composable
 fun TrendingScreenPreview() {
-    TrendingScreen()
+    TrendingScreen(rememberNavController())
 }

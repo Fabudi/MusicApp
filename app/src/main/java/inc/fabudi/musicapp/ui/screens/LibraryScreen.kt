@@ -1,7 +1,6 @@
 package inc.fabudi.musicapp.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,11 +15,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import inc.fabudi.musicapp.ui.components.PlaylistCardWithNameInside
-import inc.fabudi.musicapp.ui.components.PlaylistCardWithNameInsidePreview
 
 @Composable
-fun LibraryScreen() {
+fun LibraryScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -38,7 +38,7 @@ fun LibraryScreen() {
             columns = StaggeredGridCells.Fixed(2)
         ){
             items(30){
-                PlaylistCardWithNameInside()
+                PlaylistCardWithNameInside(onClick = { navController.navigate("Album/$it") })
             }
         }
     }
@@ -47,5 +47,5 @@ fun LibraryScreen() {
 @Preview
 @Composable
 fun LibraryScreenPreview() {
-    LibraryScreen()
+    LibraryScreen(rememberNavController())
 }

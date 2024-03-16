@@ -2,8 +2,11 @@ package inc.fabudi.musicapp.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import inc.fabudi.musicapp.ui.screens.Album
 import inc.fabudi.musicapp.ui.screens.ExploreScreen
 import inc.fabudi.musicapp.ui.screens.LibraryScreen
 import inc.fabudi.musicapp.ui.screens.Player
@@ -15,28 +18,34 @@ import inc.fabudi.musicapp.ui.screens.TrendingScreen
 fun NavigationGraph(navController: NavHostController) {
     NavHost(navController, startDestination = BottomNavItem.Explore.screenRoute) {
         composable(route = BottomNavItem.Explore.screenRoute) {
-            ExploreScreen()
+            ExploreScreen(navController)
         }
         composable(BottomNavItem.Trending.screenRoute) {
-            TrendingScreen()
+            TrendingScreen(navController)
         }
         composable(BottomNavItem.Search.screenRoute) {
-            SearchScreen()
+            SearchScreen(navController)
         }
         composable(BottomNavItem.Library.screenRoute) {
-            LibraryScreen()
+            LibraryScreen(navController)
         }
         composable(BottomNavItem.Settings.screenRoute) {
-            SettingsScreen()
+            SettingsScreen(navController)
         }
         composable("Player") {
-            Player()
+            Player(navController)
         }
-        composable("Artist") {
-            Player()
+        composable(
+            "Artist/{artistId}",
+            arguments = listOf(navArgument("artistId") { type = NavType.StringType })
+        ) {
+            Player(navController)
         }
-        composable("Album") {
-            Player()
+        composable("Album/{albumId}",
+            arguments = listOf(navArgument("albumId") { type = NavType.StringType })
+        ) {
+                backStackEntry ->
+            Album(navController, backStackEntry.arguments?.getString("albumId"))
         }
     }
 }

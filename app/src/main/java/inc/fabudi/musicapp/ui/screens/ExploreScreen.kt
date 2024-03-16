@@ -16,12 +16,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import inc.fabudi.musicapp.ui.components.PlaylistCardWithDesc
 import inc.fabudi.musicapp.ui.components.PlaylistCardWithName
 import inc.fabudi.musicapp.ui.components.PlaylistCardWithNameFourImages
 
 @Composable
-fun ExploreScreen() {
+fun ExploreScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -50,7 +52,7 @@ fun ExploreScreen() {
                 )
                 LazyRow {
                     items(8) {
-                        PlaylistCardWithName()
+                        PlaylistCardWithName(onClick = { navController.navigate("Album/$it") })
                     }
                 }
             }
@@ -64,7 +66,9 @@ fun ExploreScreen() {
                 )
                 LazyRow {
                     items(8) {
-                        PlaylistCardWithDesc(modifier = Modifier.height(152.dp))
+                        PlaylistCardWithDesc(
+                            modifier = Modifier.height(152.dp),
+                            onClick = { navController.navigate("Album/$it") })
                     }
                 }
             }
@@ -78,7 +82,9 @@ fun ExploreScreen() {
                 )
                 LazyRow {
                     items(4) {
-                        PlaylistCardWithDesc(modifier = Modifier.height(152.dp))
+                        PlaylistCardWithDesc(
+                            modifier = Modifier.height(152.dp),
+                            onClick = { navController.navigate("Album/$it") })
                     }
                 }
             }
@@ -92,7 +98,7 @@ fun ExploreScreen() {
                 )
                 LazyRow {
                     items(8) {
-                        PlaylistCardWithNameFourImages()
+                        PlaylistCardWithNameFourImages(onClick = { navController.navigate("Album/$it") })
                     }
                 }
             }
@@ -103,5 +109,5 @@ fun ExploreScreen() {
 @Preview
 @Composable
 fun ExploreScreenPreview() {
-    ExploreScreen()
+    ExploreScreen(rememberNavController())
 }
