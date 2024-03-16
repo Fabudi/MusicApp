@@ -66,17 +66,17 @@ fun PlaylistCardWithDesc(modifier: Modifier = Modifier, onClick: () -> Unit) {
 @Preview
 @Composable
 fun PlaylistCardWithDescPreview() {
-    PlaylistCardWithDesc(modifier = Modifier.height(256.dp))
+    PlaylistCardWithDesc(modifier = Modifier.height(256.dp), onClick = {})
 }
 
 
 @Composable
-fun PlaylistCardWithName() {
+fun PlaylistCardWithName(onClick: () -> Unit) {
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
-            .padding(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(8.dp)
+            .clickable { onClick() }, horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             painter = painterResource(R.drawable.ic_launcher_background),
@@ -95,18 +95,19 @@ fun PlaylistCardWithName() {
 @Preview
 @Composable
 fun PlaylistCardWithNamePreview() {
-    PlaylistCardWithName()
+    PlaylistCardWithName(onClick = {})
 }
 
 @Composable
-fun PlaylistCardWithNameFourImages() {
+fun PlaylistCardWithNameFourImages(onClick: () -> Unit) {
     Column(
         modifier = Modifier
             .width(128.dp)
             .height(IntrinsicSize.Min)
             .wrapContentHeight()
             .background(MaterialTheme.colorScheme.background)
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable { onClick() },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
@@ -117,9 +118,11 @@ fun PlaylistCardWithNameFourImages() {
                 .height(IntrinsicSize.Min)
                 .weight(1f)
         ) {
-            Row(modifier = Modifier
-                .wrapContentSize()
-                .weight(1f)) {
+            Row(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .weight(1f)
+            ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_background),
                     contentDescription = "",
@@ -135,9 +138,11 @@ fun PlaylistCardWithNameFourImages() {
                         .weight(1f)
                 )
             }
-            Row(modifier = Modifier
-                .wrapContentSize()
-                .weight(1f)) {
+            Row(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .weight(1f)
+            ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_foreground),
                     contentDescription = "",
@@ -168,20 +173,19 @@ fun PlaylistCardWithNameFourImages() {
 @Preview
 @Composable
 fun PlaylistCardWithNameFourImagesPreview() {
-    PlaylistCardWithNameFourImages()
+    PlaylistCardWithNameFourImages(onClick = {})
 }
 
 
 @Composable
-fun PlaylistCardWithNameInside(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .background(MaterialTheme.colorScheme.background)
-            .padding(8.dp)
-            .height(IntrinsicSize.Min)
-            .aspectRatio(1/1f)
-            .clip(RoundedCornerShape(15))
-    ) {
+fun PlaylistCardWithNameInside(modifier: Modifier = Modifier, onClick: () -> Unit) {
+    Box(modifier = modifier
+        .background(MaterialTheme.colorScheme.background)
+        .padding(8.dp)
+        .height(IntrinsicSize.Min)
+        .aspectRatio(1 / 1f)
+        .clip(RoundedCornerShape(15))
+        .clickable { onClick() }) {
         Image(
             painter = painterResource(R.drawable.ic_launcher_background),
             contentDescription = "",
@@ -213,12 +217,12 @@ fun PlaylistCardWithNameInside(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun PlaylistCardWithNameInsidePreview() {
-    PlaylistCardWithNameInside(modifier = Modifier.height(256.dp))
+    PlaylistCardWithNameInside(modifier = Modifier.height(256.dp), onClick = {})
 }
 
 
 @Composable
-fun TrendingTrackCard() {
+fun TrendingTrackCard(onClick: () -> Unit) {
     val context = LocalContext.current
     Row(
         modifier = Modifier
@@ -226,15 +230,8 @@ fun TrendingTrackCard() {
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
             .padding(8.dp)
-            .clickable {
-                Toast
-                    .makeText(
-                        context,
-                        "TODO(): Play selected track/Open selected album/playlist",
-                        Toast.LENGTH_SHORT
-                    )
-                    .show()
-            }, verticalAlignment = Alignment.Top
+            .clickable { onClick() },
+        verticalAlignment = Alignment.Top
     ) {
         Image(
             painter = painterResource(R.drawable.ic_launcher_background),
@@ -297,12 +294,12 @@ fun TrendingTrackCard() {
 @Composable
 fun TrendingTrackCardPreview() {
     MusicAppTheme {
-        TrendingTrackCard()
+        TrendingTrackCard(onClick = {})
     }
 }
 
 @Composable
-fun ImageTrackCard() {
+fun ImageTrackCard(onClick: () -> Unit) {
     val context = LocalContext.current
     Row(
         modifier = Modifier
@@ -310,11 +307,8 @@ fun ImageTrackCard() {
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
             .padding(8.dp)
-            .clickable {
-                Toast
-                    .makeText(context, "TODO(): Play selected track", Toast.LENGTH_SHORT)
-                    .show()
-            }, verticalAlignment = Alignment.CenterVertically
+            .clickable { onClick() },
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             painter = painterResource(R.drawable.ic_launcher_background),
@@ -352,13 +346,13 @@ fun ImageTrackCard() {
 @Composable
 fun ImageTrackCardPreview() {
     MusicAppTheme {
-        ImageTrackCard()
+        ImageTrackCard(onClick = {})
     }
 }
 
 
 @Composable
-fun AlbumTrackCard() {
+fun AlbumTrackCard(onClick: () -> Unit, number: Int) {
     val context = LocalContext.current
     Row(
         modifier = Modifier
@@ -366,14 +360,11 @@ fun AlbumTrackCard() {
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
             .padding(8.dp)
-            .clickable {
-                Toast
-                    .makeText(context, "TODO(): Play selected track", Toast.LENGTH_SHORT)
-                    .show()
-            }, verticalAlignment = Alignment.CenterVertically
+            .clickable { onClick() },
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "03",
+            text = "%02d".format(number),
             modifier = Modifier
                 .fillMaxHeight()
                 .padding(top = 8.dp),
@@ -409,6 +400,6 @@ fun AlbumTrackCard() {
 @Composable
 fun AlbumTrackCardPreview() {
     MusicAppTheme {
-        AlbumTrackCard()
+        AlbumTrackCard(onClick = {}, 3)
     }
 }
