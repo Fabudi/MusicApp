@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -41,17 +40,18 @@ import inc.fabudi.musicapp.ui.theme.MusicAppTheme
 import java.util.Locale
 
 @Composable
-fun PlaylistCardWithDesc(modifier: Modifier = Modifier) {
-    Column(
-        modifier = Modifier
-            .wrapContentSize()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(8.dp)
-    ) {
+fun PlaylistCardWithDesc(modifier: Modifier = Modifier, onClick: () -> Unit) {
+    Column(modifier = Modifier
+        .wrapContentSize()
+        .background(MaterialTheme.colorScheme.background)
+        .padding(8.dp)
+        .clickable { onClick() }) {
         Image(
             painter = painterResource(R.drawable.ic_launcher_background),
             contentDescription = "",
-            modifier = modifier.aspectRatio(1/1f).clip(RoundedCornerShape(15))
+            modifier = modifier
+                .aspectRatio(1 / 1f)
+                .clip(RoundedCornerShape(15))
         )
         Text(
             text = "Title",
