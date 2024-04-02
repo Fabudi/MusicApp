@@ -76,9 +76,9 @@ fun PlaylistCardWithDescPreview() {
 
 
 @Composable
-fun PlaylistCardWithName(onClick: () -> Unit) {
+fun PlaylistCardWithName(onClick: () -> Unit, modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .background(MaterialTheme.colorScheme.background)
             .padding(8.dp)
             .clickable { onClick() }, horizontalAlignment = Alignment.CenterHorizontally
