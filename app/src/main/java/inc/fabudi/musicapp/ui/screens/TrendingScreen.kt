@@ -25,13 +25,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import inc.fabudi.musicapp.ui.components.TrendingTrackCard
 import inc.fabudi.musicapp.ui.theme.Typography
+import inc.fabudi.musicapp.viewmodel.MusicViewModel
 
 @Composable
 fun TrendingScreen(navController: NavHostController) {
+fun TrendingScreen(navController: NavHostController, viewmodel: MusicViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()

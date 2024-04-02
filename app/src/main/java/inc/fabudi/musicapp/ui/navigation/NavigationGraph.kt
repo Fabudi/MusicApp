@@ -1,6 +1,7 @@
 package inc.fabudi.musicapp.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -21,7 +22,7 @@ fun NavigationGraph(navController: NavHostController) {
             ExploreScreen(navController)
         }
         composable(BottomNavItem.Trending.screenRoute) {
-            TrendingScreen(navController)
+            TrendingScreen(navController, hiltViewModel())
         }
         composable(BottomNavItem.Search.screenRoute) {
             SearchScreen(navController)
