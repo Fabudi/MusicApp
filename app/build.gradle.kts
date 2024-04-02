@@ -65,6 +65,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.material)
     implementation(libs.hilt)
+    implementation(libs.rxandroid)
+    implementation(libs.rxjava)
     implementation(libs.glide)
     kapt(libs.glide.compiler)
     implementation(libs.glide.compose)
