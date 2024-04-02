@@ -35,9 +35,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
 import inc.fabudi.musicapp.R
+import inc.fabudi.musicapp.Utils
+import inc.fabudi.musicapp.Utils.toUrlWithUserAgent
 import inc.fabudi.musicapp.ui.theme.MusicAppTheme
-import java.util.Locale
 
 @Composable
 fun PlaylistCardWithDesc(modifier: Modifier = Modifier, onClick: () -> Unit) {
@@ -221,6 +226,7 @@ fun PlaylistCardWithNameInsidePreview() {
 }
 
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun TrendingTrackCard(
     onClick: () -> Unit,
@@ -240,8 +246,8 @@ fun TrendingTrackCard(
             .clickable { onClick() },
         verticalAlignment = Alignment.Top
     ) {
-        Image(
-            painter = painterResource(R.drawable.ic_launcher_background),
+        GlideImage(
+            model = artworkUrl.toUrlWithUserAgent(),
             modifier = Modifier
                 .clip(RoundedCornerShape(20))
                 .height(96.dp)
@@ -300,7 +306,7 @@ fun TrendingTrackCard(
 @Composable
 fun TrendingTrackCardPreview() {
     MusicAppTheme {
-        TrendingTrackCard(onClick = {})
+        TrendingTrackCard(onClick = {}, "", 0, "", "", 0)
     }
 }
 
