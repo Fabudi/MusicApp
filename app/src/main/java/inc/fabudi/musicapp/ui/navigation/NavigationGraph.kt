@@ -19,7 +19,7 @@ import inc.fabudi.musicapp.ui.screens.TrendingScreen
 fun NavigationGraph(navController: NavHostController) {
     NavHost(navController, startDestination = BottomNavItem.Explore.screenRoute) {
         composable(route = BottomNavItem.Explore.screenRoute) {
-            ExploreScreen(navController)
+            ExploreScreen(navController, hiltViewModel())
         }
         composable(BottomNavItem.Trending.screenRoute) {
             TrendingScreen(navController, hiltViewModel())

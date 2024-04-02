@@ -11,20 +11,19 @@ import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import inc.fabudi.musicapp.ui.components.PlaylistCardWithDesc
 import inc.fabudi.musicapp.ui.components.PlaylistCardWithName
 import inc.fabudi.musicapp.ui.components.PlaylistCardWithNameFourImages
 import inc.fabudi.musicapp.ui.theme.Typography
+import inc.fabudi.musicapp.viewmodel.MusicViewModel
 
 @Composable
-fun ExploreScreen(navController: NavHostController) {
+fun ExploreScreen(navController: NavHostController, viewmodel: MusicViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -101,5 +100,5 @@ fun ExploreScreen(navController: NavHostController) {
 @Preview
 @Composable
 fun ExploreScreenPreview() {
-    ExploreScreen(rememberNavController())
+    ExploreScreen(navController = rememberNavController(), viewmodel = hiltViewModel())
 }
