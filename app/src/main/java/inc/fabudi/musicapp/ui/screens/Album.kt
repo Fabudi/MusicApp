@@ -47,6 +47,7 @@ fun Album(navController: NavHostController, albumId: String?) {
                     tint = MaterialTheme.colorScheme.onBackground
                 )
             },
+            navigationButtonOnClick = { navController.popBackStack() },
             actions = {
                 IconButton(onClick = {}, content = {
                     Icon(

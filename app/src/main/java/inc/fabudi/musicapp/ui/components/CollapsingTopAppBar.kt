@@ -63,6 +63,7 @@ fun CollapsingTopAppBar(
     titleText: String,
     smallTitleText: String,
     navigationIcon: @Composable () -> Unit,
+    navigationButtonOnClick: () -> Unit = { TODO("Set your action for navigation") },
     actions: @Composable RowScope.() -> Unit,
     maxHeight: Dp = 0.dp,
     pinnedHeight: Dp = 64.dp,
