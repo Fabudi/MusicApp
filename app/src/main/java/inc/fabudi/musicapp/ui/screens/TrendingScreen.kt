@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import inc.fabudi.musicapp.ui.components.TrendingTrackCard
+import inc.fabudi.musicapp.ui.theme.Typography
 
 @Composable
 fun TrendingScreen(navController: NavHostController) {
@@ -38,11 +39,9 @@ fun TrendingScreen(navController: NavHostController) {
             .padding(top = 16.dp)
     ) {
         Text(
-            text = "Trending", style = TextStyle(
-                fontSize = 36.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
-            ), modifier = Modifier.padding(start = 16.dp)
+            text = "Trending",
+            style = Typography.titleLarge,
+            modifier = Modifier.padding(start = 16.dp)
         )
         val categories = listOf("All", "Rock", "Podcasts", "K-Pop", "R&B", "Pop", "Punk Rock")
         var selectedCategory by remember { mutableStateOf(categories[0]) }

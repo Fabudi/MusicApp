@@ -21,6 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import inc.fabudi.musicapp.ui.components.PlaylistCardWithDesc
 import inc.fabudi.musicapp.ui.components.PlaylistCardWithName
 import inc.fabudi.musicapp.ui.components.PlaylistCardWithNameFourImages
+import inc.fabudi.musicapp.ui.theme.Typography
 
 @Composable
 fun ExploreScreen(navController: NavHostController) {
@@ -31,11 +32,9 @@ fun ExploreScreen(navController: NavHostController) {
             .padding(top = 16.dp)
     ) {
         Text(
-            text = "Explore", style = TextStyle(
-                fontSize = 36.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
-            ), modifier = Modifier.padding(start = 16.dp)
+            text = "Explore",
+            style = Typography.titleLarge,
+            modifier = Modifier.padding(start = 16.dp)
         )
         LazyColumn(
             modifier = Modifier
@@ -44,11 +43,10 @@ fun ExploreScreen(navController: NavHostController) {
         ) {
             item {
                 Text(
-                    text = "Recently played", style = TextStyle(
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground
-                    ), modifier = Modifier.padding(bottom = 8.dp, start = 16.dp)
+                    text = "Recently played",
+                    style = Typography.titleMedium,
+                    modifier = Modifier
+                        .padding(bottom = 8.dp, start = 16.dp)
                 )
                 LazyRow {
                     items(8) {
@@ -58,11 +56,9 @@ fun ExploreScreen(navController: NavHostController) {
             }
             item {
                 Text(
-                    text = "Recommended for you", style = TextStyle(
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground
-                    ), modifier = Modifier.padding(bottom = 8.dp, start = 16.dp)
+                    text = "Recommended for you",
+                    style = Typography.titleMedium,
+                    modifier = Modifier.padding(bottom = 8.dp, start = 16.dp)
                 )
                 LazyRow {
                     items(8) {
@@ -74,11 +70,9 @@ fun ExploreScreen(navController: NavHostController) {
             }
             item {
                 Text(
-                    text = "New Releases", style = TextStyle(
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground
-                    ), modifier = Modifier.padding(bottom = 8.dp, start = 16.dp)
+                    text = "New Releases",
+                    style = Typography.titleMedium,
+                    modifier = Modifier.padding(bottom = 8.dp, start = 16.dp)
                 )
                 LazyRow {
                     items(4) {
@@ -90,11 +84,9 @@ fun ExploreScreen(navController: NavHostController) {
             }
             item {
                 Text(
-                    text = "Your top mixes", style = TextStyle(
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground
-                    ), modifier = Modifier.padding(bottom = 8.dp, start = 16.dp)
+                    text = "Your top mixes",
+                    style = Typography.titleMedium,
+                    modifier = Modifier.padding(bottom = 8.dp, start = 16.dp)
                 )
                 LazyRow {
                     items(8) {

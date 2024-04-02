@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import inc.fabudi.musicapp.ui.components.PlaylistCardWithNameInside
+import inc.fabudi.musicapp.ui.theme.Typography
 
 @Composable
 fun LibraryScreen(navController: NavHostController) {
@@ -28,11 +29,9 @@ fun LibraryScreen(navController: NavHostController) {
             .padding(top = 16.dp)
     ) {
         Text(
-            text = "Library", style = TextStyle(
-                fontSize = 36.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
-            ), modifier = Modifier.padding(start = 16.dp)
+            text = "Library",
+            style = Typography.titleLarge,
+            modifier = Modifier.padding(start = 16.dp)
         )
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Fixed(2)
