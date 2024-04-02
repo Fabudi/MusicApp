@@ -222,7 +222,14 @@ fun PlaylistCardWithNameInsidePreview() {
 
 
 @Composable
-fun TrendingTrackCard(onClick: () -> Unit) {
+fun TrendingTrackCard(
+    onClick: () -> Unit,
+    artworkUrl: String,
+    place: Int,
+    title: String,
+    author: String,
+    playsCount: Int
+) {
     val context = LocalContext.current
     Row(
         modifier = Modifier
@@ -238,8 +245,7 @@ fun TrendingTrackCard(onClick: () -> Unit) {
             modifier = Modifier
                 .clip(RoundedCornerShape(20))
                 .height(96.dp)
-                .aspectRatio(1 / 1f),
-            contentDescription = ""
+                .aspectRatio(1 / 1f), contentDescription = "Track Artwork"
         )
         Column(
             modifier = Modifier
@@ -249,7 +255,7 @@ fun TrendingTrackCard(onClick: () -> Unit) {
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "#1",
+                text = "#$place",
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
                 modifier = Modifier
@@ -260,8 +266,8 @@ fun TrendingTrackCard(onClick: () -> Unit) {
                     .padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 4.dp),
                 color = Color.White
             )
-            Text(text = "Title", fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            Text(text = "Author", color = Color.Gray, fontSize = 14.sp)
+            Text(text = title, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Text(text = author, color = Color.Gray, fontSize = 14.sp)
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     painter = painterResource(R.drawable.baseline_play_circle_24),
@@ -271,7 +277,7 @@ fun TrendingTrackCard(onClick: () -> Unit) {
                         .padding(end = 4.dp),
                     tint = Color.DarkGray
                 )
-                Text(text = "2.5M Plays", fontSize = 14.sp, color = Color.DarkGray)
+                Text(text = "$playsCount Plays", fontSize = 14.sp, color = Color.DarkGray)
             }
         }
         IconButton(onClick = {
