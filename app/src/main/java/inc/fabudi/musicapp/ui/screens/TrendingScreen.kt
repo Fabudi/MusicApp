@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,8 +35,10 @@ import inc.fabudi.musicapp.ui.theme.Typography
 import inc.fabudi.musicapp.viewmodel.MusicViewModel
 
 @Composable
-fun TrendingScreen(navController: NavHostController) {
 fun TrendingScreen(navController: NavHostController, viewmodel: MusicViewModel) {
+    LaunchedEffect(Unit) {
+        viewmodel.getTrending()
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -78,12 +82,21 @@ fun TrendingScreen(navController: NavHostController, viewmodel: MusicViewModel) 
                 color = MaterialTheme.colorScheme.onBackground
             ), modifier = Modifier.padding(bottom = 8.dp, start = 16.dp, top = 16.dp)
         )
-        LazyColumn(
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(10) {
-                TrendingTrackCard(onClick = {})
+        if (viewmodel.trendingTracks.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                itemsIndexed(viewmodel.trendingTracks) { index, track ->
+                    TrendingTrackCard(
+                        onClick = {},
+                        artworkUrl = track.artworkUrl,
+                        title = track.title,
+                        author = track.authors.joinToString(", ") { it.nickname },
+                        playsCount = track.playCount,
+                        place = index+1
+                    )
+                }
             }
         }
     }
@@ -92,5 +105,5 @@ fun TrendingScreen(navController: NavHostController, viewmodel: MusicViewModel) 
 @Preview
 @Composable
 fun TrendingScreenPreview() {
-    TrendingScreen(rememberNavController())
+    TrendingScreen(navController = rememberNavController(), viewmodel = hiltViewModel())
 }
