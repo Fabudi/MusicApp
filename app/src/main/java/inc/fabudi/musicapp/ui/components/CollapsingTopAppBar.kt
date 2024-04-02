@@ -55,6 +55,27 @@ import androidx.compose.ui.util.lerp
 import inc.fabudi.musicapp.R
 import kotlin.math.pow
 
+/**
+ * Collapsing top app bar with customizable background and row of actions.
+ *
+ * @param modifier The [Modifier] to be applied to this CollapsingTopAppBar
+ * @param titleText [String] representative of the CollapsingTopAppBar header
+ * @param smallTitleText [String] representative of the CollapsingTopAppBar label
+ * @param navigationIcon The navigation icon displayed at the start of the top app bar. This should typically be an [IconButton]
+ * @param navigationButtonOnClick the lambda to be invoked when [navigationIcon] is pressed
+ * @param actions The actions displayed at the end of the TopAppBar. This should typically be
+ * [IconButton]s. The default layout here is a [Row], so icons inside will be placed horizontally.
+ * @param maxHeight The top app bar's height offset limit in [Dp], which represents the limit that
+ * a top app bar is allowed to expand to
+ *  @param pinnedHeight The top app bar's height limit in [Dp], which represents the limit that
+ *  a top app bar is allow to collapse to
+ *  @param backgroundImageId Top app bar background image id.
+ *  @param scrollBehavior A [TopAppBarScrollBehavior] which holds various offset values that will be
+ *  applied by this top app bar to set up its height and colors. A scroll behavior is designed
+ *  to work in conjunction with a scrolled content to change the top app bar appearance as the
+ *  content scrolls. See [TopAppBarScrollBehavior.nestedScrollConnection]
+ *  @sample ScrollableTopAppBarPreview
+ */
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
