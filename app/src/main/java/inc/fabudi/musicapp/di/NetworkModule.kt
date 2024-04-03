@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
+import inc.fabudi.musicapp.Utils
 import inc.fabudi.musicapp.network.MusicApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -25,7 +26,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun getRetrofit(okHttpClient: OkHttpClient?): Retrofit {
-        return Retrofit.Builder().baseUrl("")
+        return Retrofit.Builder().baseUrl(Utils.environmentVariables["API_ENDPOINT"])
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create()).client(okHttpClient!!)
             .build()

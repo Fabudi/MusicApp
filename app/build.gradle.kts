@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.rxjava3.retrofit.adapter)
     implementation(libs.logging.interceptor)
     implementation(libs.glide)
+    implementation(libs.dotenv.kotlin)
     kapt(libs.glide.compiler)
     implementation(libs.glide.compose)
     implementation(libs.androidx.hilt.navigation.compose)
