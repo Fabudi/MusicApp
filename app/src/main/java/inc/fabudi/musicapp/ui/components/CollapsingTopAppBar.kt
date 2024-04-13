@@ -144,7 +144,7 @@ fun CollapsingTopAppBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
-                onClick = { /*TODO*/ },
+                onClick = navigationButtonOnClick,
                 modifier = Modifier.height(48.dp),
                 content = navigationIcon
             )
