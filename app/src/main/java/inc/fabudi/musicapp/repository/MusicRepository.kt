@@ -10,6 +10,8 @@ class MusicRepository @Inject constructor(private val apiService: MusicApiServic
 
     fun getTrending(): Observable<Trending> = apiService.getTrending()
 
+    fun getCategories() = apiService.getCategories()
+
     fun setFavourite(id: Int, isFavourite: Boolean) = apiService.setFavourite(id, isFavourite)
 
     fun getTrack(id: Int) = apiService.getTrack(id)

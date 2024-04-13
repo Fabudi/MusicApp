@@ -38,6 +38,7 @@ import inc.fabudi.musicapp.viewmodel.MusicViewModel
 fun TrendingScreen(navController: NavHostController, viewmodel: MusicViewModel) {
     LaunchedEffect(Unit) {
         viewmodel.getTrending()
+        viewmodel.getCategories()
     }
     Column(
         modifier = Modifier
@@ -50,27 +51,27 @@ fun TrendingScreen(navController: NavHostController, viewmodel: MusicViewModel) 
             style = Typography.titleLarge,
             modifier = Modifier.padding(start = 16.dp)
         )
-        val categories = listOf("All", "Rock", "Podcasts", "K-Pop", "R&B", "Pop", "Punk Rock")
-        var selectedCategory by remember { mutableStateOf(categories[0]) }
+
+        var selectedCategory by remember { mutableStateOf(viewmodel.categories[0]) }
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(start = 16.dp),
             modifier = Modifier.padding(top = 16.dp)
         ) {
-            items(categories.size) {
+            items(viewmodel.categories.size) {
                 Text(
-                    text = categories[it],
+                    text = viewmodel.categories[it].name,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 20.sp,
-                    color = if (selectedCategory == categories[it]) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onBackground,
+                    color = if (selectedCategory == viewmodel.categories[it]) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier
                         .clip(
                             RoundedCornerShape(20)
                         )
                         .clickable {
-                            selectedCategory = categories[it]
+                            selectedCategory = viewmodel.categories[it]
                         }
-                        .background(if (selectedCategory == categories[it]) MaterialTheme.colorScheme.primary else Color.LightGray)
+                        .background(if (selectedCategory == viewmodel.categories[it]) MaterialTheme.colorScheme.primary else Color.LightGray)
                         .padding(start = 24.dp, top = 16.dp, end = 24.dp, bottom = 16.dp),
                 )
             }

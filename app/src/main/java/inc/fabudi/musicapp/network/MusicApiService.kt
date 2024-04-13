@@ -1,5 +1,6 @@
 package inc.fabudi.musicapp.network
 
+import inc.fabudi.musicapp.model.Category
 import inc.fabudi.musicapp.model.Favourites
 import inc.fabudi.musicapp.model.Playlists
 import inc.fabudi.musicapp.model.Track
@@ -16,6 +17,9 @@ interface MusicApiService {
 
     @GET("trending.php")
     fun getTrending(): Observable<Trending>
+
+    @GET("genres.php")
+    fun getCategories(): Observable<List<Category>>
 
     @POST("track.php?trackId={trackId}&setFavourite={isFavourite}")
     fun setFavourite(@Path("trackId") id: Int, isFavourite: Boolean): Boolean
