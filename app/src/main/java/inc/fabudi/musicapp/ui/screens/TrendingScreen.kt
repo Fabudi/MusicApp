@@ -15,6 +15,7 @@ import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import inc.fabudi.musicapp.ui.components.GenreChipButton
 import inc.fabudi.musicapp.ui.components.TrendingTrackCard
 import inc.fabudi.musicapp.ui.theme.Typography
 import inc.fabudi.musicapp.viewmodel.MusicViewModel
@@ -40,6 +42,8 @@ fun TrendingScreen(navController: NavHostController, viewmodel: MusicViewModel) 
         viewmodel.getTrending()
         viewmodel.getCategories()
     }
+    val genresList = viewmodel.categories.collectAsState()
+    val trendingTracksList = viewmodel.trendingTracks.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -74,6 +78,22 @@ fun TrendingScreen(navController: NavHostController, viewmodel: MusicViewModel) 
                         .background(if (selectedCategory == viewmodel.categories[it]) MaterialTheme.colorScheme.primary else Color.LightGray)
                         .padding(start = 24.dp, top = 16.dp, end = 24.dp, bottom = 16.dp),
                 )
+            itemsIndexed(genresList.value.map { it.name }.toList()) { id, item ->
+                val selected = selectedCategory == genresList.value[id].name
+                GenreChipButton(
+                    title = item,
+                    textColor = {
+                        if (selected)
+                            MaterialTheme.colorScheme.onPrimary
+                        else MaterialTheme.colorScheme.onBackground
+                    },
+                    backgroundColor = {
+                        if (selected)
+                            MaterialTheme.colorScheme.primary
+                        else Color.LightGray
+                    }) {
+                    selectedCategory = item
+                }
             }
         }
         Text(
@@ -83,21 +103,19 @@ fun TrendingScreen(navController: NavHostController, viewmodel: MusicViewModel) 
                 color = MaterialTheme.colorScheme.onBackground
             ), modifier = Modifier.padding(bottom = 8.dp, start = 16.dp, top = 16.dp)
         )
-        if (viewmodel.trendingTracks.isNotEmpty()) {
-            LazyColumn(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                itemsIndexed(viewmodel.trendingTracks) { index, track ->
-                    TrendingTrackCard(
-                        onClick = {},
-                        artworkUrl = track.artworkUrl,
-                        title = track.title,
-                        author = track.authors.joinToString(", ") { it.nickname },
-                        playsCount = track.playCount,
-                        place = index+1
-                    )
-                }
+        LazyColumn(
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            itemsIndexed(trendingTracksList.value) { index, track ->
+                TrendingTrackCard(
+                    onClick = {},
+                    artworkUrl = track.artworkUrl,
+                    title = track.title,
+                    author = track.authors.joinToString(", ") { it.nickname },
+                    playsCount = track.playCount,
+                    place = index + 1
+                )
             }
         }
     }

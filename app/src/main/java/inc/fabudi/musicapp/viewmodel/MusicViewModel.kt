@@ -9,6 +9,7 @@ import inc.fabudi.musicapp.model.Trending
 import inc.fabudi.musicapp.repository.MusicRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 
@@ -17,10 +18,13 @@ class MusicViewModel @Inject constructor(private val repository: MusicRepository
 
     private var _trendingTracks: MutableLiveData<List<Track>> = MutableLiveData(emptyList())
     private var _categories: MutableLiveData<List<Category>> = MutableLiveData(emptyList())
+    private var _trendingTracks: MutableStateFlow<List<Track>> = MutableStateFlow(emptyList())
+    private var _categories: MutableStateFlow<List<Category>> = MutableStateFlow(emptyList())
     val trendingTracks
-        get() = _trendingTracks.value ?: emptyList()
+        get() = _trendingTracks
     val categories
         get() = _categories.value ?: emptyList()
+        get() = _categories
 
     fun getTrending() = repository.getTrending()
         .observeOn(AndroidSchedulers.mainThread())
