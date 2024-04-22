@@ -38,15 +38,15 @@ fun NavigationGraph(navController: NavHostController) {
         }
         composable(
             "Artist/{artistId}",
-            arguments = listOf(navArgument("artistId") { type = NavType.StringType })
+            arguments = listOf(navArgument("artistId") { type = NavType.IntType })
         ) {
             Player(navController)
         }
-        composable("Album/{albumId}",
-            arguments = listOf(navArgument("albumId") { type = NavType.StringType })
-        ) {
-                backStackEntry ->
-            Album(navController, backStackEntry.arguments?.getString("albumId"))
+        composable(
+            "Album/{albumId}",
+            arguments = listOf(navArgument("albumId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            Album(navController, backStackEntry.arguments?.getInt("albumId") ?: 0, hiltViewModel())
         }
     }
 }
