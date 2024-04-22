@@ -6,6 +6,6 @@ data class Playlist(
     val title: String,
     val trackCount: Int,
     val tracks: List<Track>,
-    val user: User,
+    val authors: List<User>,
     val userId: Int
 )
