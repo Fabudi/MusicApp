@@ -1,14 +1,16 @@
 package inc.fabudi.musicapp.network
 
 import inc.fabudi.musicapp.model.Category
+import inc.fabudi.musicapp.model.Explore
 import inc.fabudi.musicapp.model.Favourites
+import inc.fabudi.musicapp.model.Playlist
 import inc.fabudi.musicapp.model.Playlists
 import inc.fabudi.musicapp.model.Track
 import inc.fabudi.musicapp.model.Trending
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MusicApiService {
 
@@ -21,15 +23,25 @@ interface MusicApiService {
     @GET("genres.php")
     fun getCategories(): Observable<List<Category>>
 
-    @POST("track.php?trackId={trackId}&setFavourite={isFavourite}")
-    fun setFavourite(@Path("trackId") id: Int, isFavourite: Boolean): Boolean
+    @POST("track.php")
+    fun setFavourite(
+        @Query("trackId") trackId: Int,
+        @Query("setFavourite") isFavourite: Boolean
+    ): Boolean
 
-    @GET("track.php?trackId={trackId}")
-    fun getTrack(@Path("trackId") id: Int): Observable<Track>
+    @GET("track.php")
+    fun getTrack(@Query("trackId") trackId: Int): Observable<Track>
 
-    @GET("recentlyPlayed.php?userId={userId}")
-    fun getRecentlyPlayed(@Path("userId") id: Int): Observable<Playlists>
+    @GET("recentlyPlayed.php")
+    fun getRecentlyPlayed(@Query("userId") userId: Int): Observable<Playlists>
 
-    @GET("recommended.php?userId={userId}")
-    fun getRecommended(@Path("userId") id: Int): Observable<Playlists>
+    @GET("recommended.php")
+    fun getRecommended(@Query("userId") userId: Int): Observable<Playlists>
+
+    @GET("explore.php")
+    fun getExplore(@Query("userId") userId: Int): Observable<Explore>
+
+    @GET("playlist.php")
+    fun getPlaylist(@Query("id") albumId: Int): Observable<Playlist>
+
 }
