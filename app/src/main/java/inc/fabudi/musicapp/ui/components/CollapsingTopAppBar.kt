@@ -1,7 +1,5 @@
 package inc.fabudi.musicapp.ui.components
 
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -52,7 +50,10 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import inc.fabudi.musicapp.R
+import inc.fabudi.musicapp.Utils.toUrlWithUserAgent
 import kotlin.math.pow
 
 /**
@@ -77,7 +78,7 @@ import kotlin.math.pow
  *  @sample ScrollableTopAppBarPreview
  */
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
 fun CollapsingTopAppBar(
     modifier: Modifier = Modifier,
@@ -88,7 +89,7 @@ fun CollapsingTopAppBar(
     actions: @Composable RowScope.() -> Unit,
     maxHeight: Dp = 0.dp,
     pinnedHeight: Dp = 64.dp,
-    @DrawableRes backgroundImageId: Int,
+    artworkUrl: String,
     scrollBehavior: TopAppBarScrollBehavior
 ) {
     val pinnedHeightPx: MutableState<Float>
@@ -124,11 +125,11 @@ fun CollapsingTopAppBar(
                 .alpha(1f - collapsedFactor)
         ) {
             if (!isCollapsed) {
-                Image(
-                    painter = painterResource(backgroundImageId),
+                GlideImage(
+                    model = artworkUrl.toUrlWithUserAgent(),
                     contentDescription = "Album cover image",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxWidth()
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier.fillMaxSize()
                 )
                 Spacer(
                     modifier = Modifier
@@ -217,7 +218,7 @@ fun ScrollableTopAppBarPreview() {
                 )
             })
         },
-        backgroundImageId = R.drawable.ic_launcher_background,
+        artworkUrl = "",
         scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     )
 }
