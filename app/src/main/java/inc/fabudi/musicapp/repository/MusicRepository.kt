@@ -1,5 +1,7 @@
 package inc.fabudi.musicapp.repository
 
+import inc.fabudi.musicapp.model.Explore
+import inc.fabudi.musicapp.model.Playlist
 import inc.fabudi.musicapp.model.Trending
 import inc.fabudi.musicapp.network.MusicApiService
 import io.reactivex.rxjava3.core.Observable
@@ -12,11 +14,16 @@ class MusicRepository @Inject constructor(private val apiService: MusicApiServic
 
     fun getCategories() = apiService.getCategories()
 
-    fun setFavourite(id: Int, isFavourite: Boolean) = apiService.setFavourite(id, isFavourite)
+    fun getExplore(userId: Int): Observable<Explore> = apiService.getExplore(userId)
 
-    fun getTrack(id: Int) = apiService.getTrack(id)
+    fun getPlaylist(albumId: Int): Observable<Playlist> = apiService.getPlaylist(albumId)
 
-    fun getRecentlyPlayed(id: Int) = apiService.getRecentlyPlayed(id)
+    fun setFavourite(trackId: Int, isFavourite: Boolean) =
+        apiService.setFavourite(trackId, isFavourite)
 
-    fun getRecommended(id: Int) = apiService.getRecommended(id)
+    fun getTrack(trackId: Int) = apiService.getTrack(trackId)
+
+    fun getRecentlyPlayed(userId: Int) = apiService.getRecentlyPlayed(userId)
+
+    fun getRecommended(userId: Int) = apiService.getRecommended(userId)
 }
