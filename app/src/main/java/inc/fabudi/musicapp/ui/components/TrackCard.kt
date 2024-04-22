@@ -37,59 +37,79 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.bumptech.glide.load.model.GlideUrl
-import com.bumptech.glide.load.model.LazyHeaders
 import inc.fabudi.musicapp.R
-import inc.fabudi.musicapp.Utils
 import inc.fabudi.musicapp.Utils.toUrlWithUserAgent
 import inc.fabudi.musicapp.ui.theme.MusicAppTheme
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun PlaylistCardWithDesc(modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun PlaylistCardWithDesc(
+    title: String,
+    author: String,
+    artworkUrl: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
     Column(modifier = Modifier
         .wrapContentSize()
         .background(MaterialTheme.colorScheme.background)
         .padding(8.dp)
         .clickable { onClick() }) {
-        Image(
-            painter = painterResource(R.drawable.ic_launcher_background),
+        GlideImage(
+            model = artworkUrl.toUrlWithUserAgent(),
             contentDescription = "",
             modifier = modifier
+                .height(128.dp)
                 .aspectRatio(1 / 1f)
                 .clip(RoundedCornerShape(15))
         )
         Text(
-            text = "Title",
+            text = title,
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
             modifier = Modifier.padding(top = 8.dp)
         )
-        Text(text = "Author", color = Color.Gray, fontSize = 14.sp)
+        Text(text = author, color = Color.Gray, fontSize = 14.sp)
     }
 }
 
 @Preview
 @Composable
 fun PlaylistCardWithDescPreview() {
-    PlaylistCardWithDesc(modifier = Modifier.height(256.dp), onClick = {})
+    PlaylistCardWithDesc(
+        modifier = Modifier.height(256.dp),
+        onClick = {},
+        title = "",
+        artworkUrl = "",
+        author = ""
+    )
 }
 
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun PlaylistCardWithName(onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun PlaylistCardWithName(
+    title: String,
+    artworkUrl: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .background(MaterialTheme.colorScheme.background)
             .padding(8.dp)
             .clickable { onClick() }, horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = painterResource(R.drawable.ic_launcher_background),
-            contentDescription = "",
-            modifier = Modifier.clip(RoundedCornerShape(15))
+        GlideImage(
+            model = artworkUrl.toUrlWithUserAgent(),
+            modifier = Modifier
+                .clip(RoundedCornerShape(15))
+                .height(96.dp)
+                .aspectRatio(1 / 1f),
+            contentDescription = "Playlist Artwork"
         )
         Text(
-            text = "Title",
+            text = title,
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
             modifier = Modifier.padding(top = 8.dp)
@@ -100,7 +120,7 @@ fun PlaylistCardWithName(onClick: () -> Unit, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun PlaylistCardWithNamePreview() {
-    PlaylistCardWithName(onClick = {})
+    PlaylistCardWithName(onClick = {}, title = "", artworkUrl = "")
 }
 
 @Composable
@@ -364,7 +384,7 @@ fun ImageTrackCardPreview() {
 
 
 @Composable
-fun AlbumTrackCard(onClick: () -> Unit, number: Int) {
+fun AlbumTrackCard(title: String, authors: String, place: Int, onClick: () -> Unit) {
     val context = LocalContext.current
     Row(
         modifier = Modifier
@@ -376,7 +396,7 @@ fun AlbumTrackCard(onClick: () -> Unit, number: Int) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "%02d".format(number),
+            text = "%02d".format(place),
             modifier = Modifier
                 .fillMaxHeight()
                 .padding(top = 8.dp),
@@ -389,8 +409,8 @@ fun AlbumTrackCard(onClick: () -> Unit, number: Int) {
                 .weight(1f)
                 .padding(8.dp)
         ) {
-            Text(text = "Title", fontWeight = FontWeight.Bold)
-            Text(text = "Author", color = Color.Gray)
+            Text(text = title, fontWeight = FontWeight.Bold)
+            Text(text = authors, color = Color.Gray)
         }
         IconButton(onClick = {
             Toast.makeText(
@@ -412,6 +432,6 @@ fun AlbumTrackCard(onClick: () -> Unit, number: Int) {
 @Composable
 fun AlbumTrackCardPreview() {
     MusicAppTheme {
-        AlbumTrackCard(onClick = {}, 3)
+        AlbumTrackCard("", "", 0, onClick = {})
     }
 }
