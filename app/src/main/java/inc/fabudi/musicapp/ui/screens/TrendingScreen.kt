@@ -1,7 +1,6 @@
 package inc.fabudi.musicapp.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -21,7 +19,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -39,8 +36,8 @@ import inc.fabudi.musicapp.viewmodel.MusicViewModel
 @Composable
 fun TrendingScreen(navController: NavHostController, viewmodel: MusicViewModel) {
     LaunchedEffect(Unit) {
-        viewmodel.getTrending()
         viewmodel.getCategories()
+        viewmodel.getTrending()
     }
     val genresList = viewmodel.categories.collectAsState()
     val trendingTracksList = viewmodel.trendingTracks.collectAsState()
@@ -55,29 +52,29 @@ fun TrendingScreen(navController: NavHostController, viewmodel: MusicViewModel) 
             style = Typography.titleLarge,
             modifier = Modifier.padding(start = 16.dp)
         )
-
-        var selectedCategory by remember { mutableStateOf(viewmodel.categories[0]) }
+        var selectedCategory by remember { mutableStateOf("All") }
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(start = 16.dp),
             modifier = Modifier.padding(top = 16.dp)
         ) {
-            items(viewmodel.categories.size) {
-                Text(
-                    text = viewmodel.categories[it].name,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 20.sp,
-                    color = if (selectedCategory == viewmodel.categories[it]) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier
-                        .clip(
-                            RoundedCornerShape(20)
-                        )
-                        .clickable {
-                            selectedCategory = viewmodel.categories[it]
-                        }
-                        .background(if (selectedCategory == viewmodel.categories[it]) MaterialTheme.colorScheme.primary else Color.LightGray)
-                        .padding(start = 24.dp, top = 16.dp, end = 24.dp, bottom = 16.dp),
-                )
+            item {
+                val selected = selectedCategory == "All"
+                GenreChipButton(
+                    title = "All",
+                    textColor = {
+                        if (selected)
+                            MaterialTheme.colorScheme.onPrimary
+                        else MaterialTheme.colorScheme.onBackground
+                    },
+                    backgroundColor = {
+                        if (selected)
+                            MaterialTheme.colorScheme.primary
+                        else Color.LightGray
+                    }) {
+                    selectedCategory = "All"
+                }
+            }
             itemsIndexed(genresList.value.map { it.name }.toList()) { id, item ->
                 val selected = selectedCategory == genresList.value[id].name
                 GenreChipButton(
