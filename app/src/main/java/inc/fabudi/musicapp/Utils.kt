@@ -12,7 +12,7 @@ object Utils {
     fun String.toUrlWithUserAgent() = GlideUrl(
         this, LazyHeaders.Builder().setHeader(
             "User-Agent",
-            Utils.environmentVariables["USER-AGENT"]
+            environmentVariables["USER-AGENT"]
         ).build()
     )
 
