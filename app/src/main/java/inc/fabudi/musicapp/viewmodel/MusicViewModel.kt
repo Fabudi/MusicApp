@@ -25,6 +25,20 @@ class MusicViewModel @Inject constructor(private val repository: MusicRepository
     private var _exploreItems: MutableStateFlow<List<ExploreItem>> = MutableStateFlow(emptyList())
     private var _playlist: MutableLiveData<Playlist> = MutableLiveData<Playlist>()
     var selectedGenre: Int = 0
+        set(value) {
+            field = value
+            if (value != 0) {
+                _categories.value = _categories.value.toMutableList().apply {
+                    val selectedGenre =
+                        _categories.value.find { it.id == value } ?: _categories.value[0]
+                    remove(selectedGenre)
+                    add(0, selectedGenre)
+                }
+            } else {
+                _categories.value = _categories.value.sortedBy { it.name }
+            }
+
+        }
     val trendingTracks
         get() = _trendingTracks
     val categories
@@ -59,7 +73,7 @@ class MusicViewModel @Inject constructor(private val repository: MusicRepository
     }
 
     private fun handleCategories(categories: List<Category>) {
-        _categories.value = categories
+        _categories.value = categories.sortedBy { it.name }
     }
 
     private fun handleExplore(explore: Explore) {
