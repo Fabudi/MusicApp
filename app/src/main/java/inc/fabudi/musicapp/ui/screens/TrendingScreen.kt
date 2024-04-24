@@ -15,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -52,14 +52,14 @@ fun TrendingScreen(navController: NavHostController, viewmodel: MusicViewModel) 
             style = Typography.titleLarge,
             modifier = Modifier.padding(start = 16.dp)
         )
-        var selectedCategory by remember { mutableStateOf("All") }
+        var selectedGenre by remember { mutableIntStateOf(viewmodel.selectedGenre) }
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(start = 16.dp),
             modifier = Modifier.padding(top = 16.dp)
         ) {
             item {
-                val selected = selectedCategory == "All"
+                val selected = selectedGenre == 0
                 GenreChipButton(
                     title = "All",
                     textColor = {
@@ -72,11 +72,13 @@ fun TrendingScreen(navController: NavHostController, viewmodel: MusicViewModel) 
                             MaterialTheme.colorScheme.primary
                         else Color.LightGray
                     }) {
-                    selectedCategory = "All"
+                    viewmodel.selectedGenre = 0
+                    selectedGenre = 0
+                    viewmodel.getTrending()
                 }
             }
             itemsIndexed(genresList.value.map { it.name }.toList()) { id, item ->
-                val selected = selectedCategory == genresList.value[id].name
+                val selected = selectedGenre == genresList.value[id].id
                 GenreChipButton(
                     title = item,
                     textColor = {
@@ -89,7 +91,9 @@ fun TrendingScreen(navController: NavHostController, viewmodel: MusicViewModel) 
                             MaterialTheme.colorScheme.primary
                         else Color.LightGray
                     }) {
-                    selectedCategory = item
+                    viewmodel.selectedGenre =  genresList.value[id].id
+                    selectedGenre = genresList.value[id].id
+                    viewmodel.getTrending()
                 }
             }
         }

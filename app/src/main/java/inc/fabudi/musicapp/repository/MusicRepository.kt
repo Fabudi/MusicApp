@@ -10,7 +10,7 @@ import javax.inject.Inject
 class MusicRepository @Inject constructor(private val apiService: MusicApiService) {
     fun getMyFavourites() = apiService.getMyFavourites()
 
-    fun getTrending(): Observable<Trending> = apiService.getTrending()
+    fun getTrending(genreId: Int): Observable<Trending> = apiService.getTrending(genreId = genreId)
 
     fun getCategories() = apiService.getCategories()
 

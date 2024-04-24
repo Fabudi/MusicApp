@@ -18,7 +18,7 @@ interface MusicApiService {
     fun getMyFavourites(): Observable<Favourites>
 
     @GET("trending.php")
-    fun getTrending(): Observable<Trending>
+    fun getTrending(@Query("genreId") genreId: Int): Observable<Trending>
 
     @GET("genres.php")
     fun getCategories(): Observable<List<Category>>

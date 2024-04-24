@@ -24,6 +24,7 @@ class MusicViewModel @Inject constructor(private val repository: MusicRepository
     private var _categories: MutableStateFlow<List<Category>> = MutableStateFlow(emptyList())
     private var _exploreItems: MutableStateFlow<List<ExploreItem>> = MutableStateFlow(emptyList())
     private var _playlist: MutableLiveData<Playlist> = MutableLiveData<Playlist>()
+    var selectedGenre: Int = 0
     val trendingTracks
         get() = _trendingTracks
     val categories
@@ -33,7 +34,7 @@ class MusicViewModel @Inject constructor(private val repository: MusicRepository
     val playlist
         get() = _playlist.value
 
-    fun getTrending() = repository.getTrending()
+    fun getTrending() = repository.getTrending(selectedGenre)
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeOn(Schedulers.io())
         .subscribe(this::handleTrending)
