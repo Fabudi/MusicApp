@@ -48,7 +48,7 @@ fun Album(navController: NavHostController, albumId: Int, viewModel: MusicViewMo
             CollapsingTopAppBar(
                 modifier = Modifier.heightIn(min = 56.dp),
                 titleText = viewModel.playlist?.title ?: "Placeholder",
-                smallTitleText = "Album", // TODO Add Album/Playlist categories
+                smallTitleText = viewModel.playlist?.type ?: "NULL",
                 navigationIcon = {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,

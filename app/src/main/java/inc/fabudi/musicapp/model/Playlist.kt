@@ -7,5 +7,8 @@ data class Playlist(
     val trackCount: Int,
     val tracks: List<Track>,
     val authors: List<User>,
-    val userId: Int
+    val userId: Int,
+    val isAlbum: Boolean,
+    val isSingle: Boolean,
+    val type: String
 )
