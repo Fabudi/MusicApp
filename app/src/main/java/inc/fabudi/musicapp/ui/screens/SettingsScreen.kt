@@ -15,8 +15,8 @@ import androidx.navigation.NavHostController
 import inc.fabudi.musicapp.ui.theme.Typography
 
 @Composable
-fun SettingsScreen(navController: NavHostController) {
-    Box(
+fun ProfileScreen(navController: NavHostController) {
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.background)
@@ -27,4 +27,10 @@ fun SettingsScreen(navController: NavHostController) {
             modifier = Modifier.padding(start = 16.dp)
         )
     }
+}
+
+@Preview
+@Composable
+fun ProfileScreenPreview() {
+    ProfileScreen(navController = rememberNavController())
 }

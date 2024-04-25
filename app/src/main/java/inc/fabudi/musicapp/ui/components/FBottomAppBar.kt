@@ -3,8 +3,8 @@ package inc.fabudi.musicapp.ui.components
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -25,7 +25,7 @@ fun FBottomAppBar(navController: NavController) {
         BottomNavItem.Trending,
         BottomNavItem.Search,
         BottomNavItem.Library,
-        BottomNavItem.Settings
+        BottomNavItem.Profile
     )
     BottomNavigation(
         modifier = Modifier,

@@ -11,8 +11,8 @@ import inc.fabudi.musicapp.ui.screens.Album
 import inc.fabudi.musicapp.ui.screens.ExploreScreen
 import inc.fabudi.musicapp.ui.screens.LibraryScreen
 import inc.fabudi.musicapp.ui.screens.Player
+import inc.fabudi.musicapp.ui.screens.ProfileScreen
 import inc.fabudi.musicapp.ui.screens.SearchScreen
-import inc.fabudi.musicapp.ui.screens.SettingsScreen
 import inc.fabudi.musicapp.ui.screens.TrendingScreen
 
 @Composable
@@ -30,8 +30,8 @@ fun NavigationGraph(navController: NavHostController) {
         composable(BottomNavItem.Library.screenRoute) {
             LibraryScreen(navController)
         }
-        composable(BottomNavItem.Settings.screenRoute) {
-            SettingsScreen(navController)
+        composable(BottomNavItem.Profile.screenRoute) {
+            ProfileScreen(navController)
         }
         composable("Player") {
             Player(navController)

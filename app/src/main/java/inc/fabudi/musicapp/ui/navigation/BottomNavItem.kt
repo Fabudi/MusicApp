@@ -7,5 +7,5 @@ sealed class BottomNavItem(var title: String, var icon: Int, var screenRoute: St
     data object Trending: BottomNavItem("TRENDING", R.drawable.baseline_local_fire_department_24, "trending")
     data object Search: BottomNavItem("SEARCH", R.drawable.baseline_search_24, "search")
     data object Library: BottomNavItem("LIBRARY", R.drawable.baseline_library_music_24, "library")
-    data object Settings: BottomNavItem("SETTINGS", R.drawable.baseline_settings_24, "settings")
+    data object Profile: BottomNavItem("PROFILE", R.drawable.baseline_account_circle_24, "profile")
 }
