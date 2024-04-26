@@ -38,11 +38,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import inc.fabudi.musicapp.R
+import inc.fabudi.musicapp.viewmodel.MusicViewModel
 
 
 @Composable
-fun Player(navController: NavHostController) {
-    val context = LocalContext.current
+fun Player(viewModel: MusicViewModel = hiltViewModel()) {
+    val currentlyPlayingState = viewModel.player.currentlyPlaying.observeAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()

@@ -14,17 +14,31 @@ import inc.fabudi.musicapp.R
 import inc.fabudi.musicapp.ui.components.FBottomAppBar
 import inc.fabudi.musicapp.ui.components.PlayBar
 import inc.fabudi.musicapp.ui.navigation.NavigationGraph
+import inc.fabudi.musicapp.viewmodel.MusicViewModel
+import kotlinx.coroutines.launch
 
 @Composable
-fun MainScreen() {
+fun MainScreen(viewModel: MusicViewModel) {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = {
-            Column(modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()) {
-                PlayBar(trackCoverImage = R.drawable.ic_launcher_background)
-                FBottomAppBar(navController = navController)
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+            ) {
+                currentlyPlayingState.value?.let {
+                    PlayBar(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 16.dp), onClick = {
+                            openBottomSheet = true
+                            scope.launch { modalSheetState.show() }
+                        },
+                        viewModel = viewModel
+                    )
+                }
+                FBottomAppBar(navController = navController, viewModel = viewModel)
             }
         }
     ) {

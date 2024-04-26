@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import inc.fabudi.musicapp.R
@@ -32,9 +33,10 @@ import inc.fabudi.musicapp.ui.components.ButtonWithIcon
 import inc.fabudi.musicapp.ui.components.ButtonWithPayload
 import inc.fabudi.musicapp.ui.components.UserCard
 import inc.fabudi.musicapp.ui.theme.Typography
+import inc.fabudi.musicapp.viewmodel.MusicViewModel
 
 @Composable
-fun ProfileScreen(navController: NavHostController) {
+fun ProfileScreen(navController: NavHostController, viewModel: MusicViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -158,5 +160,5 @@ fun ProfileScreen(navController: NavHostController) {
 @Preview
 @Composable
 fun ProfileScreenPreview() {
-    ProfileScreen(navController = rememberNavController())
+    ProfileScreen(navController = rememberNavController(), viewModel = hiltViewModel())
 }

@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import inc.fabudi.musicapp.R
+import inc.fabudi.musicapp.viewmodel.MusicViewModel
 
 @Composable
 fun PlayBar(trackCoverImage: Int) {
@@ -43,6 +44,7 @@ fun PlayBar(trackCoverImage: Int) {
             .padding(8.dp), horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Row(
+    viewModel: MusicViewModel
             contentDescription = stringResource(R.string.artwork_image),
             modifier = Modifier
                 .fillMaxSize()

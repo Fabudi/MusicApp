@@ -5,9 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import inc.fabudi.musicapp.viewmodel.MusicViewModel
 import inc.fabudi.musicapp.ui.screens.MainScreen
 import inc.fabudi.musicapp.ui.theme.MusicAppTheme
+import inc.fabudi.musicapp.viewmodel.MusicViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MusicAppTheme {
-                MainScreen()
+                MainScreen(viewmodel)
             }
         }
     }
