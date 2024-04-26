@@ -24,6 +24,7 @@ class MusicViewModel @Inject constructor(private val repository: MusicRepository
     private var _categories: MutableStateFlow<List<Category>> = MutableStateFlow(emptyList())
     private var _exploreItems: MutableStateFlow<List<ExploreItem>> = MutableStateFlow(emptyList())
     private var _playlist: MutableLiveData<Playlist> = MutableLiveData<Playlist>()
+    var player = Player()
     var selectedGenre: Int = 0
         set(value) {
             field = value
@@ -82,6 +83,14 @@ class MusicViewModel @Inject constructor(private val repository: MusicRepository
 
     private fun handlePlaylist(playlist: Playlist) {
         _playlist.value = playlist
+    }
+
+    class Player {
+
+        init {
+            Log.d("MusicViewModel.Player", "Init: Some init things")
+        }
+
     }
 
 }
