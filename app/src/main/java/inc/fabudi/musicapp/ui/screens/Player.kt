@@ -1,17 +1,21 @@
 package inc.fabudi.musicapp.ui.screens
 
-import android.widget.Toast
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.MarqueeAnimationMode
+import androidx.compose.foundation.MarqueeSpacing
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -20,6 +24,7 @@ import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -27,118 +32,124 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import inc.fabudi.musicapp.R
+import inc.fabudi.musicapp.Utils.toCommaString
+import inc.fabudi.musicapp.Utils.toMmSs
+import inc.fabudi.musicapp.Utils.toUrlWithUserAgent
 import inc.fabudi.musicapp.viewmodel.MusicViewModel
 
 
+@OptIn(ExperimentalFoundationApi::class, ExperimentalGlideComposeApi::class)
 @Composable
 fun Player(viewModel: MusicViewModel = hiltViewModel()) {
     val currentlyPlayingState = viewModel.player.currentlyPlaying.observeAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceBetween
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceAround
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Bottom
-        ) {
-            IconButton(onClick = {
-                Toast.makeText(context, "Close the player screen", Toast.LENGTH_SHORT).show()
-            }, content = {
-                Icon(
-                    painter = painterResource(R.drawable.baseline_keyboard_arrow_down_24),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .height(24.dp)
-                        .aspectRatio(1 / 1f)
-                )
-            })
-            Column(
-                modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "NOW PLAYING FROM",
-                    color = Color.Gray,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = "ALBUM",
-                    color = MaterialTheme.colorScheme.primary,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
-                )
-            }
-            IconButton(onClick = {
-                Toast.makeText(context, "Open bottom sheet with more options", Toast.LENGTH_SHORT)
-                    .show()
-            }, content = {
-                Icon(
-                    painter = painterResource(R.drawable.baseline_more_horiz_24),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .height(24.dp)
-                        .aspectRatio(1 / 1f)
-                )
-            })
-        }
         Row(
             modifier = Modifier.padding(top = 32.dp)
         ) {
-            Image(
-                painter = painterResource(R.drawable.ic_launcher_background),
-                contentDescription = "",
+            GlideImage(
+                model = currentlyPlayingState.value?.artworkUrl?.toUrlWithUserAgent() ?: "",
+                contentDescription = stringResource(R.string.artwork_image),
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth()
                     .aspectRatio(1 / 1f)
-                    .shadow(elevation = 16.dp, clip = true, shape = RoundedCornerShape(10))
+                    .shadow(
+                        elevation = 16.dp, shape = RoundedCornerShape(15)
+                    )
             )
         }
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = "Track Name",
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
-                modifier = Modifier.padding(top = 16.dp)
-            )
-            Text(
-                text = "Author and other",
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                color = Color.Gray,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-                contentDescription = stringResource(R.string.artwork_image),
-            Column(modifier = Modifier.fillMaxWidth()) {
-                Slider(value = .3f, onValueChange = {}, modifier = Modifier.fillMaxWidth())
-                Row(
-                    modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+        Column(
+            horizontalAlignment = Alignment.Start
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column(
+                    modifier = Modifier
+                        .wrapContentHeight()
+                        .fillMaxWidth()
+                        .weight(1f)
                 ) {
                     Text(
-                        text = "1:00",
+                        text = currentlyPlayingState.value?.title ?: "",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp,
+                        modifier = Modifier.basicMarquee(
+                            animationMode = MarqueeAnimationMode.Immediately,
+                            spacing = MarqueeSpacing(32.dp)
+                        ),
+                        overflow = TextOverflow.Clip,
+                        maxLines = 1
+                    )
+                    Text(
+                        text = currentlyPlayingState.value?.authors?.toCommaString() ?: "",
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 18.sp,
+                        color = Color.Gray,
+                        modifier = Modifier.basicMarquee(
+                            animationMode = MarqueeAnimationMode.Immediately,
+                            spacing = MarqueeSpacing(32.dp)
+                        ),
+                        overflow = TextOverflow.Clip,
+                        maxLines = 1
+                    )
+                }
+                Spacer(modifier = Modifier.width(16.dp))
+                var isFavourite by remember { mutableStateOf(false) }
+                IconButton(onClick = {
+                    isFavourite = !isFavourite
+                }, content = {
+                    Icon(
+                        painter = painterResource(if (isFavourite) R.drawable.baseline_favorite_24 else R.drawable.baseline_favorite_border_24),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .height(32.dp)
+                            .aspectRatio(1 / 1f),
+                        tint = if (isFavourite) MaterialTheme.colorScheme.primary else Color.Gray
+                    )
+                }, modifier = Modifier.wrapContentSize())
+            }
+            Column(modifier = Modifier.fillMaxWidth()) {
+                val currentPositionState = viewModel.player.currentPosition.observeAsState()
+                Slider(
+                    value = (currentPositionState.value?.toFloat() ?: 0f),
+                    onValueChange = {
+                        viewModel.player.currentPosition.value = it.toInt()
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    valueRange = 0f..(currentlyPlayingState.value?.duration?.toFloat() ?: 1f)
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = (currentPositionState.value?.toFloat() ?: 0f).toMmSs(),
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(start = 8.dp)
                     )
                     Text(
-                        text = "3:32",
+                        text = (currentlyPlayingState.value?.duration?.toFloat() ?: 1f).toMmSs(),
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(end = 8.dp)
@@ -151,18 +162,19 @@ fun Player(viewModel: MusicViewModel = hiltViewModel()) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 IconButton(onClick = {
-                    Toast.makeText(context, "Rewind 5s", Toast.LENGTH_SHORT).show()
+                    viewModel.player.isShuffled.value = !viewModel.player.isShuffled.value
                 }, content = {
                     Icon(
-                        painter = painterResource(R.drawable.baseline_replay_5_24),
+                        painter = painterResource(R.drawable.baseline_shuffle_24),
                         contentDescription = "",
                         modifier = Modifier
                             .height(24.dp)
-                            .aspectRatio(1 / 1f)
+                            .aspectRatio(1 / 1f),
+                        tint = if (viewModel.player.isShuffled.value) MaterialTheme.colorScheme.primary else Color.Gray
                     )
                 })
                 IconButton(onClick = {
-                    Toast.makeText(context, "Previous track", Toast.LENGTH_SHORT).show()
+                    viewModel.player.previousTrack()
                 }, content = {
                     Icon(
                         painter = painterResource(R.drawable.baseline_fast_rewind_24),
@@ -172,13 +184,11 @@ fun Player(viewModel: MusicViewModel = hiltViewModel()) {
                             .aspectRatio(1 / 1f)
                     )
                 })
-                var isPlaying by remember { mutableStateOf(false) }
                 IconButton(onClick = {
-                    isPlaying = !isPlaying
-                    Toast.makeText(context, "Pause/Play", Toast.LENGTH_SHORT).show()
+                    viewModel.player.isPlaying.value = !viewModel.player.isPlaying.value
                 }, content = {
                     Icon(
-                        painter = painterResource(if (isPlaying) R.drawable.baseline_pause_circle_24 else R.drawable.baseline_play_circle_24),
+                        painter = painterResource(if (viewModel.player.isPlaying.value) R.drawable.baseline_pause_circle_24 else R.drawable.baseline_play_circle_24),
                         contentDescription = "",
                         modifier = Modifier
                             .height(78.dp)
@@ -187,7 +197,7 @@ fun Player(viewModel: MusicViewModel = hiltViewModel()) {
                     )
                 })
                 IconButton(onClick = {
-                    Toast.makeText(context, "Next track", Toast.LENGTH_SHORT).show()
+                    viewModel.player.nextTrack()
                 }, content = {
                     Icon(
                         painter = painterResource(R.drawable.baseline_fast_forward_24),
@@ -198,78 +208,24 @@ fun Player(viewModel: MusicViewModel = hiltViewModel()) {
                     )
                 })
                 IconButton(onClick = {
-                    Toast.makeText(context, "Forward 5s", Toast.LENGTH_SHORT).show()
+                    viewModel.player.repeat()
                 }, content = {
                     Icon(
-                        painter = painterResource(R.drawable.baseline_forward_5_24),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .height(24.dp)
-                            .aspectRatio(1 / 1f)
-                    )
-                })
-            }
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 16.dp)
-            ) {
-                var isFavourite by remember { mutableStateOf(false) }
-                var isShuffling by remember { mutableStateOf(false) }
-                var isRepeating by remember { mutableStateOf(false) }
-                IconButton(onClick = {
-                    isFavourite = !isFavourite
-                    Toast.makeText(context, "Add to favourite", Toast.LENGTH_SHORT).show()
-                }, content = {
-                    Icon(
-                        painter = painterResource(if (isFavourite) R.drawable.baseline_favorite_24 else R.drawable.baseline_favorite_border_24),
+                        painter = painterResource(
+                            if (viewModel.player.repeatState.value == MusicViewModel.Player.RepeatState.SINGLE) R.drawable.baseline_repeat_one_24
+                            else R.drawable.baseline_repeat_24
+                        ),
                         contentDescription = "",
                         modifier = Modifier
                             .height(24.dp)
                             .aspectRatio(1 / 1f),
-                        tint = if (isFavourite) MaterialTheme.colorScheme.primary else Color.Gray
-                    )
-                })
-                IconButton(onClick = {
-                    isShuffling = !isShuffling
-                    Toast.makeText(context, "Shuffle", Toast.LENGTH_SHORT).show()
-                }, content = {
-                    Icon(
-                        painter = painterResource(R.drawable.baseline_shuffle_24),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .height(24.dp)
-                            .aspectRatio(1 / 1f),
-                        tint = if (isShuffling) MaterialTheme.colorScheme.primary else Color.Gray
-                    )
-                })
-                IconButton(onClick = {
-                    isRepeating = !isRepeating
-                    Toast.makeText(context, "Repeat", Toast.LENGTH_SHORT).show()
-                }, content = {
-                    Icon(
-                        painter = painterResource(if (isRepeating) R.drawable.baseline_repeat_one_24 else R.drawable.baseline_repeat_24),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .height(24.dp)
-                            .aspectRatio(1 / 1f),
-                        tint = if (isRepeating) MaterialTheme.colorScheme.primary else Color.Gray
-                    )
-                })
-                IconButton(onClick = {
-                    Toast.makeText(context, "Lyrics", Toast.LENGTH_SHORT).show()
-                }, content = {
-                    Icon(
-                        painter = painterResource(R.drawable.baseline_queue_music_24),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .height(24.dp)
-                            .aspectRatio(1 / 1f),
-                        tint = Color.Gray
+                        tint = if (viewModel.player.repeatState.value != MusicViewModel.Player.RepeatState.NONE) MaterialTheme.colorScheme.primary
+                        else Color.Gray
                     )
                 })
             }
         }
+        Spacer(modifier = Modifier.height(1.dp))
     }
 }
 
@@ -277,5 +233,5 @@ fun Player(viewModel: MusicViewModel = hiltViewModel()) {
 @Preview
 @Composable
 fun PlayerPreview() {
-    Player(rememberNavController())
+    Player()
 }
