@@ -1,6 +1,7 @@
 package inc.fabudi.musicapp.viewmodel
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -91,6 +92,12 @@ class MusicViewModel @Inject constructor(private val repository: MusicRepository
             Log.d("MusicViewModel.Player", "Init: Some init things")
         }
 
+        var playlist: MutableLiveData<Playlist> = MutableLiveData<Playlist>()
+        var isPlaying = mutableStateOf(false)
+        var isShuffled = mutableStateOf(false)
+        var repeatState = mutableStateOf(RepeatState.NONE)
+        var currentlyPlaying = MutableLiveData<Track>()
+        var currentPosition = MutableLiveData<Int>()
         enum class RepeatState {
             NONE, SINGLE, ALL
         }
