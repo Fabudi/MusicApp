@@ -59,7 +59,9 @@ fun Album(navController: NavHostController, albumId: Int, viewModel: MusicViewMo
                 },
                 navigationButtonOnClick = { navController.popBackStack() },
                 actions = {
-                    IconButton(onClick = {}, content = {
+                    IconButton(onClick = {
+                        viewModel.player.playPlaylist(viewModel.playlist!!)
+                    }, content = {
                         Icon(
                             painter = painterResource(R.drawable.baseline_play_arrow_24),
                             contentDescription = "",
@@ -87,7 +89,10 @@ fun Album(navController: NavHostController, albumId: Int, viewModel: MusicViewMo
                     AlbumTrackCard(
                         title = track.title, authors = track.authors.toCommaString(),
                         place = index + 1
-                    ) {}
+                    ) {
+                        viewModel.player.currentlyPlaying.value =
+                            viewModel.player.playlist.value!!.tracks[index]
+                    }
                 }
             }
 

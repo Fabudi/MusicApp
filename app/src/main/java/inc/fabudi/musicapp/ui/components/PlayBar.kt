@@ -1,12 +1,15 @@
 package inc.fabudi.musicapp.ui.components
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.MarqueeAnimationMode
+import androidx.compose.foundation.MarqueeSpacing
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -16,73 +19,83 @@ import androidx.compose.material.Text
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import inc.fabudi.musicapp.R
+import inc.fabudi.musicapp.Utils.toCommaString
+import inc.fabudi.musicapp.Utils.toUrlWithUserAgent
 import inc.fabudi.musicapp.viewmodel.MusicViewModel
 
+@OptIn(ExperimentalFoundationApi::class, ExperimentalGlideComposeApi::class)
 @Composable
-fun PlayBar(trackCoverImage: Int) {
-    Row(
-        modifier = Modifier
-            .height(64.dp)
-            .background(Color(red = 235, green = 235, blue = 235, alpha = 255))
-            .padding(8.dp), horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Row(
+fun PlayBar(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
     viewModel: MusicViewModel
+) {
+    Row(modifier = modifier
+        .padding(horizontal = 16.dp)
+        .height(64.dp)
+        .shadow(
+            elevation = 2.dp, shape = RoundedCornerShape(15)
+        )
+        .background(MaterialTheme.colorScheme.secondaryContainer)
+        .clickable { onClick() }
+        .padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+        GlideImage(
+            model = viewModel.player.currentlyPlaying.value!!.artworkUrl.toUrlWithUserAgent(),
             contentDescription = stringResource(R.string.artwork_image),
             modifier = Modifier
-                .fillMaxSize()
-                .weight(1f),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(end = 16.dp)
+                .clip(RoundedCornerShape(15))
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
         ) {
-            var imageAverageColor by remember { mutableStateOf(Color(0xff000000)) }
-            val context = LocalContext.current.resources
-            LaunchedEffect(trackCoverImage) {
-                //TODO("Image shadow color depends on Image color")
-            }
-            Image(
-                painter = painterResource(trackCoverImage),
-                contentDescription = "",
-                modifier = Modifier
-                    .height(48.dp)
-                    .aspectRatio(1 / 1f)
-                    .shadow(
-                        elevation = 3.dp,
-                        shape = RoundedCornerShape(10.dp),
-                        clip = true,
-                        ambientColor = imageAverageColor,
-                        spotColor = imageAverageColor
-                    )
+            Text(
+                text = viewModel.player.currentlyPlaying.value!!.title,
+                fontWeight = FontWeight.Bold,
+                fontSize = 17.sp,
+                modifier = Modifier.basicMarquee(
+                    animationMode = MarqueeAnimationMode.Immediately,
+                    spacing = MarqueeSpacing(32.dp)
+                ),
+                overflow = TextOverflow.Clip,
+                maxLines = 1
             )
-            Column(modifier = Modifier.padding(start = 8.dp)) {
-                Text(text = "Title", fontWeight = FontWeight.Bold, fontSize = 17.sp)
-                Text(text = "Author", fontWeight = FontWeight.Normal, fontSize = 14.sp)
-            }
+            Text(
+                text = viewModel.player.currentlyPlaying.value!!.authors.toCommaString(),
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp,
+                modifier = Modifier.basicMarquee(
+                    animationMode = MarqueeAnimationMode.Immediately,
+                    spacing = MarqueeSpacing(32.dp)
+                ),
+                overflow = TextOverflow.Clip,
+                maxLines = 1
+            )
         }
-        var isPlaying by remember { mutableStateOf(false) }
         IconButton(
-            onClick = { isPlaying = !isPlaying },
+            onClick = { viewModel.player.isPlaying.value = !viewModel.player.isPlaying.value },
             modifier = Modifier.wrapContentSize(),
             enabled = true
         ) {
             Icon(
-                painter = painterResource(if (isPlaying) R.drawable.baseline_pause_24 else R.drawable.baseline_play_arrow_24),
+                painter = painterResource(if (viewModel.player.isPlaying.value) R.drawable.baseline_pause_24 else R.drawable.baseline_play_arrow_24),
                 contentDescription = "",
                 modifier = Modifier
                     .height(36.dp)
@@ -96,5 +109,5 @@ fun PlayBar(trackCoverImage: Int) {
 @Preview
 @Composable
 fun PlayBarPreview() {
-    PlayBar(trackCoverImage = R.drawable.ic_launcher_background)
+    PlayBar(onClick = {}, viewModel = hiltViewModel())
 }
