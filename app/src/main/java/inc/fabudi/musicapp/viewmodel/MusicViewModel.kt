@@ -91,6 +91,10 @@ class MusicViewModel @Inject constructor(private val repository: MusicRepository
             Log.d("MusicViewModel.Player", "Init: Some init things")
         }
 
+        enum class RepeatState {
+            NONE, SINGLE, ALL
+        }
+
     }
 
 }
