@@ -98,7 +98,7 @@ fun PlaylistCardWithName(
         modifier = modifier
             .background(MaterialTheme.colorScheme.background)
             .padding(8.dp)
-            .clickable { onClick() }, horizontalAlignment = Alignment.CenterHorizontally
+            .clickable { onClick() }, horizontalAlignment = Alignment.Start
     ) {
         GlideImage(
             model = artworkUrl.toUrlWithUserAgent(),
