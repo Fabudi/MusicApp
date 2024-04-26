@@ -48,7 +48,8 @@ fun FBottomAppBar(navController: NavController) {
                 selectedContentColor = MaterialTheme.colorScheme.primary,
                 unselectedContentColor = Color.Gray,
                 alwaysShowLabel = true,
-                selected = currentRoute == screen.screenRoute,
+                selected = currentRoute?.lowercase()?.contains(screen.screenRoute.lowercase())
+                    ?: false,
                 onClick = {
                     navController.navigate(screen.screenRoute) {
                         navController.graph.startDestinationRoute?.let { screenRoute ->

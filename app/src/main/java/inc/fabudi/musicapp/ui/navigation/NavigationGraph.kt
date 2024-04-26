@@ -43,7 +43,19 @@ fun NavigationGraph(navController: NavHostController) {
             Player(navController)
         }
         composable(
-            "Album/{albumId}",
+            "Explore/Album/{albumId}",
+            arguments = listOf(navArgument("albumId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            Album(navController, backStackEntry.arguments?.getInt("albumId") ?: 0, hiltViewModel())
+        }
+        composable(
+            "Library/Album/{albumId}",
+            arguments = listOf(navArgument("albumId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            Album(navController, backStackEntry.arguments?.getInt("albumId") ?: 0, hiltViewModel())
+        }
+        composable(
+            "Search/Album/{albumId}",
             arguments = listOf(navArgument("albumId") { type = NavType.IntType })
         ) { backStackEntry ->
             Album(navController, backStackEntry.arguments?.getInt("albumId") ?: 0, hiltViewModel())
