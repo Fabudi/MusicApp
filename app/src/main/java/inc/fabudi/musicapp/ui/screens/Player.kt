@@ -29,6 +29,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -123,6 +124,7 @@ fun Player(navController: NavHostController) {
                 color = Color.Gray,
                 modifier = Modifier.padding(top = 8.dp)
             )
+                contentDescription = stringResource(R.string.artwork_image),
             Column(modifier = Modifier.fillMaxWidth()) {
                 Slider(value = .3f, onValueChange = {}, modifier = Modifier.fillMaxWidth())
                 Row(
