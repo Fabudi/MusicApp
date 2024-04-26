@@ -98,6 +98,45 @@ class MusicViewModel @Inject constructor(private val repository: MusicRepository
         var repeatState = mutableStateOf(RepeatState.NONE)
         var currentlyPlaying = MutableLiveData<Track>()
         var currentPosition = MutableLiveData<Int>()
+
+        fun playPlaylist(album: Playlist) {
+            playlist.value = album
+            currentlyPlaying.postValue(playlist.value!!.tracks[0])
+        }
+
+        fun resetCurrentPosition() = run { currentPosition.value = 0 }
+
+        fun nextTrack() {
+            val index = playlist.value!!.tracks.indexOf(currentlyPlaying.value)
+            currentlyPlaying.value =
+                playlist.value!!.tracks[(index + 1) % (playlist.value?.tracks?.size ?: return)]
+            resetCurrentPosition()
+        }
+
+        fun previousTrack() {
+            val index = playlist.value!!.tracks.indexOf(currentlyPlaying.value)
+            currentlyPlaying.value =
+                playlist.value!!.tracks[if (index == 0) (playlist.value?.tracks?.size
+                    ?: return) - 1 else index - 1]
+            resetCurrentPosition()
+        }
+
+        fun shuffle() {
+            isShuffled.value = !isShuffled.value
+        }
+
+        fun repeat() {
+            repeatState.value = when (repeatState.value) {
+                RepeatState.NONE -> RepeatState.ALL
+                RepeatState.ALL -> RepeatState.SINGLE
+                else -> RepeatState.NONE
+            }
+        }
+
+        fun play() {
+            isPlaying.value = !isPlaying.value
+        }
+
         enum class RepeatState {
             NONE, SINGLE, ALL
         }
