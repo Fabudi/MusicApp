@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -67,9 +68,20 @@ fun PlaylistCardWithDesc(
             text = title,
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
-            modifier = Modifier.padding(top = 8.dp)
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .width(128.dp),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
-        Text(text = author, color = Color.Gray, fontSize = 14.sp)
+        Text(
+            text = author,
+            color = Color.Gray,
+            fontSize = 14.sp,
+            modifier = Modifier.width(128.dp),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
 
@@ -111,8 +123,12 @@ fun PlaylistCardWithName(
         Text(
             text = title,
             fontWeight = FontWeight.Bold,
-            fontSize = 18.sp,
-            modifier = Modifier.padding(top = 8.dp)
+            fontSize = 16.sp,
+            modifier = Modifier
+                .width(96.dp)
+                .padding(top = 8.dp),
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
