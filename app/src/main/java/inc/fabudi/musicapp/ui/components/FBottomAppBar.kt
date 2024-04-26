@@ -13,13 +13,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import inc.fabudi.musicapp.ui.navigation.BottomNavItem
+import inc.fabudi.musicapp.viewmodel.MusicViewModel
 
 @Composable
-fun FBottomAppBar(navController: NavController) {
+fun FBottomAppBar(navController: NavController, viewModel: MusicViewModel) {
     val screens = listOf(
         BottomNavItem.Explore,
         BottomNavItem.Trending,
@@ -67,5 +69,5 @@ fun FBottomAppBar(navController: NavController) {
 @Preview
 @Composable
 fun FBottomAppBarPreview() {
-    FBottomAppBar(rememberNavController())
+    FBottomAppBar(navController = rememberNavController(), viewModel = hiltViewModel())
 }
