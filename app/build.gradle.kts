@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.glide)
     implementation(libs.dotenv.kotlin)
+    implementation(libs.androidx.runtime.livedata)
     kapt(libs.glide.compiler)
     implementation(libs.glide.compose)
     implementation(libs.androidx.hilt.navigation.compose)

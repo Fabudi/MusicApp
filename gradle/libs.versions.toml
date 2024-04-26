@@ -21,6 +21,7 @@ glide-compiler = "5.0.0-rc01"
 glide-compose = "1.0.0-beta01"
 hilt-navigation-compose = "1.2.0"
 dotenv-kotlin = "6.4.1"
+runtime-livedata = "1.6.6"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -52,6 +53,7 @@ glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", versi
 glide-compose = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glide-compose" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
 dotenv-kotlin = { group = "io.github.cdimascio", name = "dotenv-kotlin", version.ref = "dotenv-kotlin" }
+androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtime-livedata" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
