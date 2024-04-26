@@ -59,7 +59,7 @@ fun ExploreScreen(navController: NavHostController, viewmodel: MusicViewModel) {
                             PlaylistCardWithName(
                                 title = playlist.title,
                                 artworkUrl = playlist.artworkUrl,
-                                onClick = { navController.navigate("Album/${playlist.id}") })
+                                onClick = { navController.navigate("Explore/Album/${playlist.id}") })
                         }
                     if (exploreItem.type == "Single")
                         items(exploreItem.playlists) { playlist ->
@@ -67,14 +67,14 @@ fun ExploreScreen(navController: NavHostController, viewmodel: MusicViewModel) {
                                 title = playlist.title,
                                 artworkUrl = playlist.artworkUrl,
                                 author = playlist.authors.joinToString(", ") { it.nickname },
-                                onClick = { navController.navigate("Album/${playlist.id}") })
+                                onClick = { navController.navigate("Explore/Album/${playlist.id}") })
                         }
                     if (exploreItem.type == "Album")
                         items(exploreItem.playlists) { playlist ->
                             PlaylistCardWithName(
                                 title = playlist.title,
                                 artworkUrl = playlist.artworkUrl,
-                                onClick = { navController.navigate("Album/${playlist.id}") })
+                                onClick = { navController.navigate("Explore/Album/${playlist.id}") })
                         }
                 }
             }
