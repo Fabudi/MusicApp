@@ -31,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import inc.fabudi.musicapp.R
+import inc.fabudi.musicapp.Utils.toCommaString
 import inc.fabudi.musicapp.ui.components.AlbumTrackCard
 import inc.fabudi.musicapp.ui.components.CollapsingTopAppBar
 import inc.fabudi.musicapp.viewmodel.MusicViewModel
@@ -84,8 +85,7 @@ fun Album(navController: NavHostController, albumId: Int, viewModel: MusicViewMo
             ) {
                 itemsIndexed(viewModel.playlist!!.tracks) { index, track ->
                     AlbumTrackCard(
-                        title = track.title,
-                        authors = track.authors.joinToString(", ") { it.nickname },
+                        title = track.title, authors = track.authors.toCommaString(),
                         place = index + 1
                     ) {}
                 }

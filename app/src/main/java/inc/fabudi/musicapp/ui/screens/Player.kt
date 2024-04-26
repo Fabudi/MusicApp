@@ -29,6 +29,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,11 +38,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import inc.fabudi.musicapp.R
+import inc.fabudi.musicapp.viewmodel.MusicViewModel
 
 
 @Composable
-fun Player(navController: NavHostController) {
-    val context = LocalContext.current
+fun Player(viewModel: MusicViewModel = hiltViewModel()) {
+    val currentlyPlayingState = viewModel.player.currentlyPlaying.observeAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -123,6 +125,7 @@ fun Player(navController: NavHostController) {
                 color = Color.Gray,
                 modifier = Modifier.padding(top = 8.dp)
             )
+                contentDescription = stringResource(R.string.artwork_image),
             Column(modifier = Modifier.fillMaxWidth()) {
                 Slider(value = .3f, onValueChange = {}, modifier = Modifier.fillMaxWidth())
                 Row(

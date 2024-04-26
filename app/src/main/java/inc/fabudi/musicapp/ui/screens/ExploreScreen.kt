@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import inc.fabudi.musicapp.Utils.toCommaString
 import inc.fabudi.musicapp.ui.components.PlaylistCardWithDesc
 import inc.fabudi.musicapp.ui.components.PlaylistCardWithName
 import inc.fabudi.musicapp.ui.theme.Typography
@@ -66,7 +67,7 @@ fun ExploreScreen(navController: NavHostController, viewmodel: MusicViewModel) {
                             PlaylistCardWithDesc(
                                 title = playlist.title,
                                 artworkUrl = playlist.artworkUrl,
-                                author = playlist.authors.joinToString(", ") { it.nickname },
+                                author = playlist.authors.toCommaString(),
                                 onClick = { navController.navigate("Album/${playlist.id}") })
                         }
                     if (exploreItem.type == "Album")
