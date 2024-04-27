@@ -1,5 +1,7 @@
 package inc.fabudi.musicapp.ui.navigation
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -17,7 +19,14 @@ import inc.fabudi.musicapp.ui.screens.TrendingScreen
 
 @Composable
 fun NavigationGraph(navController: NavHostController) {
-    NavHost(navController, startDestination = BottomNavItem.Explore.screenRoute) {
+    NavHost(
+        navController,
+        startDestination = BottomNavItem.Explore.screenRoute,
+        enterTransition = { fadeIn() },
+        popEnterTransition = { fadeIn() },
+        exitTransition = { fadeOut() },
+        popExitTransition = { fadeOut() }
+    ) {
         composable(route = BottomNavItem.Explore.screenRoute) {
             ExploreScreen(navController, hiltViewModel())
         }
