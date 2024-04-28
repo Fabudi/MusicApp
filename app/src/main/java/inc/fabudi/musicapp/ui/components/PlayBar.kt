@@ -19,6 +19,7 @@ import androidx.compose.material.Text
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -90,12 +91,13 @@ fun PlayBar(
             )
         }
         IconButton(
-            onClick = { viewModel.player.isPlaying.value = !viewModel.player.isPlaying.value },
+            onClick = { viewModel.player.play() },
             modifier = Modifier.wrapContentSize(),
             enabled = true
         ) {
+            val isPlayingState = viewModel.player.isPlaying.collectAsState()
             Icon(
-                painter = painterResource(if (viewModel.player.isPlaying.value) R.drawable.baseline_pause_24 else R.drawable.baseline_play_arrow_24),
+                painter = painterResource(if (isPlayingState.value) R.drawable.baseline_pause_24 else R.drawable.baseline_play_arrow_24),
                 contentDescription = "",
                 modifier = Modifier
                     .height(36.dp)

@@ -24,6 +24,7 @@ import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -142,7 +143,7 @@ fun PlayerScreen(viewModel: MusicViewModel = hiltViewModel()) {
                 Slider(
                     value = (currentPositionState.value?.toFloat() ?: 0f),
                     onValueChange = {
-                        viewModel.player.currentPosition.value = it.toInt()
+                        viewModel.player.seekTo(it.toInt())
                     },
                     modifier = Modifier.fillMaxWidth(),
                     valueRange = 0f..(currentlyPlayingState.value?.duration?.toFloat() ?: 1f)
@@ -171,7 +172,7 @@ fun PlayerScreen(viewModel: MusicViewModel = hiltViewModel()) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 IconButton(onClick = {
-                    viewModel.player.isShuffled.value = !viewModel.player.isShuffled.value
+                    viewModel.player.shuffle()
                 }, content = {
                     Icon(
                         painter = painterResource(R.drawable.baseline_shuffle_24),
@@ -194,10 +195,11 @@ fun PlayerScreen(viewModel: MusicViewModel = hiltViewModel()) {
                     )
                 })
                 IconButton(onClick = {
-                    viewModel.player.isPlaying.value = !viewModel.player.isPlaying.value
+                    viewModel.player.play()
                 }, content = {
+                    val isPlaying = viewModel.player.isPlaying.collectAsState()
                     Icon(
-                        painter = painterResource(if (viewModel.player.isPlaying.value) R.drawable.baseline_pause_circle_24 else R.drawable.baseline_play_circle_24),
+                        painter = painterResource(if (isPlaying.value) R.drawable.baseline_pause_circle_24 else R.drawable.baseline_play_circle_24),
                         contentDescription = "",
                         modifier = Modifier
                             .height(78.dp)
@@ -241,8 +243,6 @@ fun PlayerScreen(viewModel: MusicViewModel = hiltViewModel()) {
 
 @Preview
 @Composable
-fun PlayerPreview() {
-    Player()
 fun PlayerScreenPreview() {
     PlayerScreen()
 }
