@@ -22,6 +22,10 @@ glide-compose = "1.0.0-beta01"
 hilt-navigation-compose = "1.2.0"
 dotenv-kotlin = "6.4.1"
 runtime-livedata = "1.6.6"
+media3-exoplayer = "1.4.0-alpha01"
+media3-ui = "1.4.0-alpha01"
+media3-common = "1.4.0-alpha01"
+media3-session = "1.4.0-alpha01"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -54,6 +58,10 @@ glide-compose = { group = "com.github.bumptech.glide", name = "compose", version
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
 dotenv-kotlin = { group = "io.github.cdimascio", name = "dotenv-kotlin", version.ref = "dotenv-kotlin" }
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtime-livedata" }
+androidx-media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3-exoplayer" }
+androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3-ui" }
+androidx-media3-common = { group = "androidx.media3", name = "media3-common", version.ref = "media3-common" }
+androidx-media3-session = { group = "androidx.media3", name = "media3-session", version.ref = "media3-session" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
