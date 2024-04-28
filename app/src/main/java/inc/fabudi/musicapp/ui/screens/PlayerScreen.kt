@@ -23,6 +23,7 @@ import androidx.compose.material.Slider
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -47,12 +48,20 @@ import inc.fabudi.musicapp.Utils.toCommaString
 import inc.fabudi.musicapp.Utils.toMmSs
 import inc.fabudi.musicapp.Utils.toUrlWithUserAgent
 import inc.fabudi.musicapp.viewmodel.MusicViewModel
+import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.seconds
 
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalGlideComposeApi::class)
 @Composable
 fun PlayerScreen(viewModel: MusicViewModel = hiltViewModel()) {
     val currentlyPlayingState = viewModel.player.currentlyPlaying.observeAsState()
+    LaunchedEffect(Unit) {
+        while (true) {
+            viewModel.player.updatePosition()
+            delay(1.seconds / 2)
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
