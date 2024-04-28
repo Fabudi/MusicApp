@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.runtime.LaunchedEffect
 import dagger.hilt.android.AndroidEntryPoint
 import inc.fabudi.musicapp.ui.screens.MainScreen
 import inc.fabudi.musicapp.ui.theme.MusicAppTheme
@@ -16,6 +17,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MusicAppTheme {
+                LaunchedEffect(Unit) {
+                    viewmodel.player.setup(context = this@MainActivity)
+                    viewmodel.player.preparePlayer()
+                }
                 MainScreen(viewmodel)
             }
         }
