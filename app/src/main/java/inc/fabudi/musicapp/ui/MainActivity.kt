@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.LaunchedEffect
 import dagger.hilt.android.AndroidEntryPoint
+import inc.fabudi.musicapp.ui.components.RequestNotificationPermissions
 import inc.fabudi.musicapp.ui.screens.MainScreen
 import inc.fabudi.musicapp.ui.theme.MusicAppTheme
 import inc.fabudi.musicapp.viewmodel.MusicViewModel
@@ -22,6 +23,7 @@ class MainActivity : ComponentActivity() {
                     viewmodel.player.preparePlayer()
                 }
                 MainScreen(viewmodel)
+                RequestNotificationPermissions()
             }
         }
     }
