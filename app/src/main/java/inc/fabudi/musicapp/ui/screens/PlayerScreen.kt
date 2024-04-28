@@ -51,7 +51,7 @@ import inc.fabudi.musicapp.viewmodel.MusicViewModel
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalGlideComposeApi::class)
 @Composable
-fun Player(viewModel: MusicViewModel = hiltViewModel()) {
+fun PlayerScreen(viewModel: MusicViewModel = hiltViewModel()) {
     val currentlyPlayingState = viewModel.player.currentlyPlaying.observeAsState()
     Column(
         modifier = Modifier
@@ -234,4 +234,6 @@ fun Player(viewModel: MusicViewModel = hiltViewModel()) {
 @Composable
 fun PlayerPreview() {
     Player()
+fun PlayerScreenPreview() {
+    PlayerScreen()
 }

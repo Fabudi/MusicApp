@@ -74,7 +74,7 @@ fun MainScreen(viewModel: MusicViewModel) {
             sheetState = bottomSheetState,
             windowInsets = WindowInsets(0)
         ) {
-            Player()
+            PlayerScreen()
         }
     }
 }

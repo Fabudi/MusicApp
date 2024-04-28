@@ -9,7 +9,7 @@ import androidx.navigation.navArgument
 import inc.fabudi.musicapp.ui.screens.Album
 import inc.fabudi.musicapp.ui.screens.ExploreScreen
 import inc.fabudi.musicapp.ui.screens.LibraryScreen
-import inc.fabudi.musicapp.ui.screens.Player
+import inc.fabudi.musicapp.ui.screens.PlayerScreen
 import inc.fabudi.musicapp.ui.screens.ProfileScreen
 import inc.fabudi.musicapp.ui.screens.SearchScreen
 import inc.fabudi.musicapp.ui.screens.TrendingScreen
@@ -34,7 +34,7 @@ fun NavigationGraph(navController: NavHostController, viewModel: MusicViewModel)
             ProfileScreen(navController, viewModel)
         }
         composable("Player") {
-            Player(viewModel)
+            PlayerScreen(viewModel)
         }
         composable(
             "Artist/{artistId}",
