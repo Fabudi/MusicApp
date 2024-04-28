@@ -10,10 +10,11 @@ object Utils {
         directory = "/assets"
         filename = "env"
     }
+    val userAgent: String = environmentVariables["USER-AGENT"]
     fun String.toUrlWithUserAgent() = GlideUrl(
         this, LazyHeaders.Builder().setHeader(
             "User-Agent",
-            environmentVariables["USER-AGENT"]
+            userAgent
         ).build()
     )
 
