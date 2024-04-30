@@ -54,8 +54,8 @@ fun PlaylistCardWithDesc(
     Column(modifier = Modifier
         .wrapContentSize()
         .background(MaterialTheme.colorScheme.background)
-        .padding(8.dp)
-        .clickable { onClick() }) {
+        .clickable { onClick() }
+        .padding(8.dp)) {
         GlideImage(
             model = artworkUrl.toUrlWithUserAgent(),
             contentDescription = "",
@@ -147,8 +147,8 @@ fun PlaylistCardWithNameFourImages(onClick: () -> Unit) {
             .height(IntrinsicSize.Min)
             .wrapContentHeight()
             .background(MaterialTheme.colorScheme.background)
-            .padding(8.dp)
-            .clickable { onClick() },
+            .clickable { onClick() }
+            .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
@@ -278,8 +278,8 @@ fun TrendingTrackCard(
             .wrapContentHeight()
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
-            .padding(8.dp)
-            .clickable { onClick() },
+            .clickable { onClick() }
+            .padding(8.dp),
         verticalAlignment = Alignment.Top
     ) {
         Box(modifier = Modifier
@@ -371,8 +371,8 @@ fun ImageTrackCard(onClick: () -> Unit) {
             .wrapContentHeight()
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
-            .padding(8.dp)
-            .clickable { onClick() },
+            .clickable { onClick() }
+            .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -424,8 +424,8 @@ fun AlbumTrackCard(title: String, authors: String, place: Int, onClick: () -> Un
             .height(IntrinsicSize.Min)
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
-            .padding(8.dp)
-            .clickable { onClick() },
+            .clickable { onClick() }
+            .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(

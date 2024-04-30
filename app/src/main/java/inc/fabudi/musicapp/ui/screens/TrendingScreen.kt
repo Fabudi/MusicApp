@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import inc.fabudi.musicapp.Utils.toCommaString
 import inc.fabudi.musicapp.ui.components.GenreChipButton
 import inc.fabudi.musicapp.ui.components.TrendingTrackCard
 import inc.fabudi.musicapp.ui.theme.Typography
@@ -110,10 +111,10 @@ fun TrendingScreen(navController: NavHostController, viewmodel: MusicViewModel) 
         ) {
             itemsIndexed(trendingTracksList.value) { index, track ->
                 TrendingTrackCard(
-                    onClick = {},
+                    onClick = { viewmodel.player.playTrack(track) },
                     artworkUrl = track.artworkUrl,
                     title = track.title,
-                    author = track.authors.joinToString(", ") { it.nickname },
+                    author = track.authors.toCommaString(),
                     playsCount = track.playCount,
                     place = index + 1
                 )

@@ -21,6 +21,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -31,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import inc.fabudi.musicapp.R
+import inc.fabudi.musicapp.Utils.toCommaString
 import inc.fabudi.musicapp.ui.components.AlbumTrackCard
 import inc.fabudi.musicapp.ui.components.CollapsingTopAppBar
 import inc.fabudi.musicapp.viewmodel.MusicViewModel
@@ -43,12 +46,12 @@ fun Album(navController: NavHostController, albumId: Int, viewModel: MusicViewMo
         viewModel.getPlaylist(albumId)
     }
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-    if (viewModel.playlist != null)
+    if (viewModel.playlist.value != null)
         Scaffold(topBar = {
             CollapsingTopAppBar(
                 modifier = Modifier.heightIn(min = 56.dp),
-                titleText = viewModel.playlist?.title ?: "Placeholder",
-                smallTitleText = viewModel.playlist?.type ?: "NULL",
+                titleText = viewModel.playlist.value?.title ?: "Placeholder",
+                smallTitleText = viewModel.playlist.value?.type ?: "NULL",
                 navigationIcon = {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -58,9 +61,19 @@ fun Album(navController: NavHostController, albumId: Int, viewModel: MusicViewMo
                 },
                 navigationButtonOnClick = { navController.popBackStack() },
                 actions = {
-                    IconButton(onClick = {}, content = {
+                    val playlistState = viewModel.playlist.observeAsState()
+                    val isPlayingState = viewModel.player.isPlaying.collectAsState()
+                    IconButton(onClick = {
+                        if ((playlistState.value?.id == viewModel.player.playlist.value?.id))
+                            viewModel.player.play()
+                        else viewModel.player.playPlaylist(viewModel.playlist.value!!)
+                    }, content = {
                         Icon(
-                            painter = painterResource(R.drawable.baseline_play_arrow_24),
+                            painter = painterResource(
+                                if (isPlayingState.value && (playlistState.value?.id == viewModel.player.playlist.value?.id))
+                                    R.drawable.baseline_pause_24
+                                else R.drawable.baseline_play_arrow_24
+                            ),
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.background,
                             modifier = Modifier
@@ -72,7 +85,7 @@ fun Album(navController: NavHostController, albumId: Int, viewModel: MusicViewMo
                         )
                     })
                 },
-                artworkUrl = viewModel.playlist?.artworkUrl ?: "",
+                artworkUrl = viewModel.playlist.value?.artworkUrl ?: "",
                 scrollBehavior = scrollBehavior
             )
         }, modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)) {
@@ -82,12 +95,14 @@ fun Album(navController: NavHostController, albumId: Int, viewModel: MusicViewMo
                     .fillMaxSize(),
                 contentPadding = PaddingValues(top = 32.dp)
             ) {
-                itemsIndexed(viewModel.playlist!!.tracks) { index, track ->
+                itemsIndexed(viewModel.playlist.value!!.tracks) { index, track ->
                     AlbumTrackCard(
                         title = track.title,
-                        authors = track.authors.joinToString(", ") { it.nickname },
+                        authors = track.authors.toCommaString(),
                         place = index + 1
-                    ) {}
+                    ) {
+                        viewModel.player.playPlaylist(viewModel.playlist.value!!, index)
+                    }
                 }
             }
 

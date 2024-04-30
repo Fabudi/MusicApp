@@ -4,10 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.runtime.LaunchedEffect
 import dagger.hilt.android.AndroidEntryPoint
-import inc.fabudi.musicapp.viewmodel.MusicViewModel
+import inc.fabudi.musicapp.ui.components.RequestNotificationPermissions
 import inc.fabudi.musicapp.ui.screens.MainScreen
 import inc.fabudi.musicapp.ui.theme.MusicAppTheme
+import inc.fabudi.musicapp.viewmodel.MusicViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -16,7 +18,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MusicAppTheme {
-                MainScreen()
+                LaunchedEffect(Unit) {
+                    viewmodel.player.setup(context = this@MainActivity)
+                    viewmodel.player.preparePlayer()
+                }
+                MainScreen(viewmodel)
+                RequestNotificationPermissions()
             }
         }
     }
