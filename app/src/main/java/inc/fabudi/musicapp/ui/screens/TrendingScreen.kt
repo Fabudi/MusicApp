@@ -111,7 +111,7 @@ fun TrendingScreen(navController: NavHostController, viewmodel: MusicViewModel) 
         ) {
             itemsIndexed(trendingTracksList.value) { index, track ->
                 TrendingTrackCard(
-                    onClick = {},
+                    onClick = { viewmodel.player.playTrack(track) },
                     artworkUrl = track.artworkUrl,
                     title = track.title,
                     author = track.authors.toCommaString(),

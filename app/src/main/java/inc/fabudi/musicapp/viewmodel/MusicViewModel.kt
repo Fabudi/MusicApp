@@ -125,6 +125,7 @@ class MusicViewModel @Inject constructor(
         private var isStarted = mutableStateOf(false)
         private lateinit var notificationManager: NotificationManager
         private lateinit var mediaSession: MediaSession
+        private var isPlayingTrack = mutableStateOf(false)
 
         @OptIn(UnstableApi::class)
         fun setup(context: Context) {
@@ -160,34 +161,38 @@ class MusicViewModel @Inject constructor(
         private fun setupPlaylist() {
             val audioItems: ArrayList<MediaSource> = arrayListOf()
             playlist.value!!.tracks.forEach {
-                val mediaMetaData = MediaMetadata.Builder()
-                    .setArtworkUri(
-                        Uri.parse(it.artworkUrl)
-                    )
-                    .setTitle(it.title)
-                    .setAlbumArtist(it.authors.toCommaString())
-                    .build()
-                val trackUri = Uri.parse(it.streamUrl)
-                val mediaItem = MediaItem.Builder()
-                    .setUri(trackUri)
-                    .setMediaId(it.id.toString())
-                    .setMediaMetadata(mediaMetaData)
-                    .build()
-                val dataSourceFactory =
-                    DefaultHttpDataSource.Factory().setUserAgent(Utils.userAgent)
-                val mediaSource =
-                    ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem)
-                audioItems.add(mediaSource)
+                audioItems.add(prepareTrack(it))
             }
             exoPlayer.playWhenReady = false
             exoPlayer.setMediaSources(audioItems)
             exoPlayer.prepare()
         }
 
+        @OptIn(UnstableApi::class)
+        private fun setupTrack(mediaSource: ProgressiveMediaSource) {
+            exoPlayer.playWhenReady = false
+            exoPlayer.setMediaSource(mediaSource)
+            exoPlayer.prepare()
+        }
+
+        @OptIn(UnstableApi::class)
+        private fun prepareTrack(track: Track): ProgressiveMediaSource {
+            val mediaMetaData = MediaMetadata.Builder().setArtworkUri(
+                Uri.parse(track.artworkUrl)
+            ).setTitle(track.title).setAlbumArtist(track.authors.toCommaString()).build()
+            val trackUri = Uri.parse(track.streamUrl)
+            val mediaItem = MediaItem.Builder().setUri(trackUri).setMediaId(track.id.toString())
+                .setMediaMetadata(mediaMetaData).build()
+            val dataSourceFactory = DefaultHttpDataSource.Factory().setUserAgent(Utils.userAgent)
+            val mediaSource =
+                ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem)
+            return mediaSource
+        }
 
         fun playPlaylist(album: Playlist, index: Int = 0) {
             if (album.id == playlist.value?.id)
                 return playSelectedTrack(index)
+            isPlayingTrack.value = false
             playlist.value = album
             currentlyPlaying.postValue(playlist.value!!.tracks[index])
             resetCurrentPosition()
@@ -295,6 +300,7 @@ class MusicViewModel @Inject constructor(
         }
 
         private fun syncPlayerFlows() {
+            if (isPlayingTrack.value) return
             currentlyPlaying.postValue(
                 playlist.value!!.tracks[exoPlayer.currentMediaItemIndex.coerceAtMost(
                     playlist.value?.tracks?.size ?: 0
@@ -325,6 +331,15 @@ class MusicViewModel @Inject constructor(
 
         fun updatePosition() {
             currentPosition.value = (exoPlayer.currentPosition / 1000).toInt()
+        }
+
+        fun playTrack(track: Track) {
+            if (track.id == currentlyPlaying.value?.id) return
+            currentlyPlaying.postValue(track)
+            isPlayingTrack.value = true
+            resetCurrentPosition()
+            setupTrack(prepareTrack(track = track))
+            play()
         }
 
         companion object {
