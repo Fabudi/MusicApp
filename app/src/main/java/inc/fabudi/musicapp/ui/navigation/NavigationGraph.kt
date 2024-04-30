@@ -1,5 +1,7 @@
 package inc.fabudi.musicapp.ui.navigation
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -17,7 +19,14 @@ import inc.fabudi.musicapp.viewmodel.MusicViewModel
 
 @Composable
 fun NavigationGraph(navController: NavHostController, viewModel: MusicViewModel) {
-    NavHost(navController, startDestination = BottomNavItem.Explore.screenRoute) {
+    NavHost(
+        navController,
+        startDestination = BottomNavItem.Explore.screenRoute,
+        enterTransition = { fadeIn() },
+        popEnterTransition = { fadeIn() },
+        exitTransition = { fadeOut() },
+        popExitTransition = { fadeOut() }
+    ) {
         composable(route = BottomNavItem.Explore.screenRoute) {
             ExploreScreen(navController, viewModel)
         }
@@ -43,7 +52,19 @@ fun NavigationGraph(navController: NavHostController, viewModel: MusicViewModel)
             Album(navController, backStackEntry.arguments?.getInt("artistId") ?: 0, viewModel)
         }
         composable(
-            "Album/{albumId}",
+            "Explore/Album/{albumId}",
+            arguments = listOf(navArgument("albumId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            Album(navController, backStackEntry.arguments?.getInt("albumId") ?: 0, hiltViewModel())
+        }
+        composable(
+            "Library/Album/{albumId}",
+            arguments = listOf(navArgument("albumId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            Album(navController, backStackEntry.arguments?.getInt("albumId") ?: 0, hiltViewModel())
+        }
+        composable(
+            "Search/Album/{albumId}",
             arguments = listOf(navArgument("albumId") { type = NavType.IntType })
         ) { backStackEntry ->
             Album(navController, backStackEntry.arguments?.getInt("albumId") ?: 0, viewModel)

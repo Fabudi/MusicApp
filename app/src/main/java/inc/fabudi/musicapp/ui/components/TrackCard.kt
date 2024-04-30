@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -67,9 +68,20 @@ fun PlaylistCardWithDesc(
             text = title,
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
-            modifier = Modifier.padding(top = 8.dp)
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .width(128.dp),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
-        Text(text = author, color = Color.Gray, fontSize = 14.sp)
+        Text(
+            text = author,
+            color = Color.Gray,
+            fontSize = 14.sp,
+            modifier = Modifier.width(128.dp),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
 
@@ -97,9 +109,8 @@ fun PlaylistCardWithName(
     Column(
         modifier = modifier
             .background(MaterialTheme.colorScheme.background)
-            .clickable { onClick() }
-            .padding(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(8.dp)
+            .clickable { onClick() }, horizontalAlignment = Alignment.Start
     ) {
         GlideImage(
             model = artworkUrl.toUrlWithUserAgent(),
@@ -112,8 +123,12 @@ fun PlaylistCardWithName(
         Text(
             text = title,
             fontWeight = FontWeight.Bold,
-            fontSize = 18.sp,
-            modifier = Modifier.padding(top = 8.dp)
+            fontSize = 16.sp,
+            modifier = Modifier
+                .width(96.dp)
+                .padding(top = 8.dp),
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
@@ -267,25 +282,22 @@ fun TrendingTrackCard(
             .padding(8.dp),
         verticalAlignment = Alignment.Top
     ) {
-        GlideImage(
-            model = artworkUrl.toUrlWithUserAgent(),
-            modifier = Modifier
-                .clip(RoundedCornerShape(20))
-                .height(96.dp)
-                .aspectRatio(1 / 1f), contentDescription = "Track Artwork"
-        )
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 8.dp)
-                .height(96.dp),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
+        Box(modifier = Modifier
+            .height(96.dp)
+            .aspectRatio(1 / 1f)) {
+            GlideImage(
+                model = artworkUrl.toUrlWithUserAgent(),
+                modifier = Modifier
+                    .clip(RoundedCornerShape(20))
+                    .height(96.dp)
+                    .aspectRatio(1 / 1f), contentDescription = "Track Artwork"
+            )
             Text(
                 text = "#$place",
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
                 modifier = Modifier
+                    .padding(4.dp)
                     .clip(
                         RoundedCornerShape(50)
                     )
@@ -293,8 +305,28 @@ fun TrendingTrackCard(
                     .padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 4.dp),
                 color = Color.White
             )
-            Text(text = title, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            Text(text = author, color = Color.Gray, fontSize = 14.sp)
+        }
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 8.dp)
+                .height(96.dp),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = title,
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = author,
+                color = Color.Gray,
+                fontSize = 14.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     painter = painterResource(R.drawable.baseline_play_circle_24),
